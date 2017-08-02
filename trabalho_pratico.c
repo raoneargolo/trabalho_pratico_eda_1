@@ -7,6 +7,9 @@
 
 void quebra_string(char *string_recebida);
 
+void inserir_arvore(tipo_nodo nome_nodo_arvore, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
+void inserir_lista(tipo_nodo nome_nodo_lista, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
+
 int main() {	
 
 	FILE *arquivo; //variável para conter o arquivo csv a ser lido
@@ -101,6 +104,9 @@ void quebra_string(char *string_recebida)
 													 //e o armazena na variável salário
 				printf("Salario: %.2lf\n", salario);
 			}
+
+			inserir_arvore(tipo_nodo nome_nodo_arvore, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
+			inserir_lista(tipo_nodo nome_nodo_lista, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
 		}
 	}
 	
