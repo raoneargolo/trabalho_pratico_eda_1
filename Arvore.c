@@ -1,15 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//Criação da estrutura ArvoreAVL............................OK
 //Funcao de menu............................................PENDENTE
-//Funcao de Criacao de arvore...............................OK
-//Funcao de inserção de um elemento na Arvore...............PENDENTE
-//Funcao de busca na arvore.................................PENDENTE
-	//Funcao de busca pela matricula........................OK
-	//Funcao de busca pelo nome ............................PENDENTE
-//Funcaode remocao de ArvoreAVL.............................PENDENTE
-//Funcao de Importacao de Arquivo...........................PENDENTE
+//Funcao de Importacao de Arquivo...........................OK (Funcionando)
+
+//Criação da estrutura ArvoreAVL............................OK (Testar)
+//Funcao de Criacao de arvore...............................OK (Testar)
+//Funcao de inserção de um elemento na Arvore...............OK (Testar)
+//Funcao de Impressão da arvore.............................OK (Testar)
+//Funcao de busca na arvore
+	//Funcao de busca pela matricula........................OK (Testar)
+	//Funcao de busca pelo nome ............................OK (Testar)
+//Funcao de remocao de ArvoreAVL............................PENDENTE
+
 
 typedef struct celula_AVL {
 	int matricula;
@@ -50,7 +53,6 @@ void insere_AVL (int matricula, char *nome, char *sobrenome, char *email, char *
 }
 
 
-
 //Funcao de Criacao de arvore
 void celula_AVL_ptr *cria_arvore_AVL
 {
@@ -61,7 +63,6 @@ void celula_AVL_ptr *cria_arvore_AVL
 //Funcao de busca matricula na arvore
 int busca_matricula(celula_AVL *arvore, int matricula)
 {
-
 	if (arvore != NULL) 
 	{
 		if arvore->matricula == matricula) 
@@ -74,7 +75,6 @@ int busca_matricula(celula_AVL *arvore, int matricula)
 			busca_matricula (arvore->filho_esq, matricula);
 		else 
 			busca_matricula (arvore->filho_dir,matricula);
-			
 	}
 	return 0; //não achou o elemento
 }
@@ -88,14 +88,27 @@ int busca_nome(celula_AVL *arvore, char *nome, char *sobrenome)
 			printf(" nome %s%s encontrado", nome,sobrenome);
 			return 1; //Achou o elemento
 		}
-	
 		busca_matricula (arvore->filho_esq, nome,sobrenome);
-	
 		busca_matricula (arvore->filho_dir,nome,sobrenome);
 	}
 	return 0; //não achou o elemento		
 }
 	
 	
+//Funcao de Impressão da arvore
+void impressao_AVL(celula_AVL *arvore) // Falta melhorar
+{
 
-
+	if (arvore != NULL)
+	{
+		impressao_AVL(arvore->filho_esq);
+		printf("%d\nmatricula:", aux->matricula);
+		printf("%s\nnome:", aux->nome);
+		printf("%s\nSobrenome:", aux->sobrenome);
+		printf("%s\ne-mail:", aux->email);
+		printf("%s\ne-mail:", aux->telefone);
+		printf("%lf\nSalario:", aux->salario);
+		impressao_AVL(arvore->filho_dir);
+	}
+	
+}
