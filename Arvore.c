@@ -112,3 +112,43 @@ void impressao_AVL(celula_AVL *arvore) // Falta melhorar
 	}
 	
 }
+
+//Funcao de Remocao de elemento na arvore
+
+void remocao_AVL(celula_AVL *arvore, int matricula)
+{
+	celula_AVL *aux;
+	if (arvore==NULL) // Arovre vazia
+	{
+		return NULL;
+	}
+	// No caso chamando a funcao busca para pegar a matricula
+	// (Obs: se na funcao de busca for retornar a posicao do elemento
+	// a remover, entao teremo que trocar o retorno da funcao)
+	busca_matricula(arvore,matricula); 
+
+	//tratamentos
+	// caso 1: No sem filhos
+	if (arvore->filho_esq == NULL && arvore->filho_dir == NULL)
+	{
+		free(arvore);
+		arvore == NULL;
+	}
+	//caso 2: só tem tem filho a direita
+	else if(arvore->filho_esq == NULL)
+	{
+		aux=arvore;
+		aux=aux->filho_dir;
+		free(aux);
+	}
+	//caso 2.1: só tem tem filho a esqueda
+	else if(arvore->filho_dir == NULL)
+	{
+		aux=arvore;
+		aux=aux->filho_esq;
+		free(aux);
+	}
+	// caso 3: No tem 2 filhos
+	
+
+}
