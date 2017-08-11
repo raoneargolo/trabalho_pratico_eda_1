@@ -14,7 +14,7 @@
 //Funcao de remocao de ArvoreAVL............................PENDENTE
 
 
-typedef struct celula_AVL {
+struct celula_AVL {
 	int matricula;
 	char *nome;	
 	char *sobrenome;
@@ -25,7 +25,7 @@ typedef struct celula_AVL {
 	struct celula_AVL *filho_dir;
 };
 
-typedef celula_AVL celula_AVL;
+typedef struct celula_AVL celula_AVL;
 typedef celula_AVL *celula_AVL_ptr;
 
 
@@ -35,12 +35,12 @@ void insere_AVL (int matricula, char *nome, char *sobrenome, char *email, char *
 {
 	if (arvore_AVL == NULL) //quando a inserção for na folha
 	{
-		arvore_AVL = ((celula_AVL_ptr*)malloc(sizeof(celula_AVL_ptr))) 
-		arvore_AVL-> matricula=matricula;
-		Strcpy(arvore_AVL-> nome,nome);
-		Strcpy(arvore_AVL->sobrenome,sobrenome);
-		Strcpy(arvore_AVL->email,email);
-		Strcpy(arvore_AVL->telefone,telefone);
+		celula_AVL_ptr arvore_AVL = ((celula_AVL_ptr*)malloc(sizeof(celula_AVL_ptr)));
+		arvore_AVL->matricula=matricula;
+		strcpy(arvore_AVL->nome,nome);
+		strcpy(arvore_AVL->sobrenome,sobrenome);
+		strcpy(arvore_AVL->email,email);
+		strcpy(arvore_AVL->telefone,telefone);
 		arvore_AVL->salario=salario;
 		arvore_AVL->filho_esq = NULL;
 		arvore_AVL->filho_dir = NULL;
