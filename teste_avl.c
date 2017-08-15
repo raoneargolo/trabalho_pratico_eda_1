@@ -1,7 +1,6 @@
 //trabalhar a função de inserção
 //resolver como inserir na avl dentro da função que quebra string
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -10,7 +9,7 @@
 #define tamanho_caracteres_linha 1000
 #define COUNT 5
 
-struct Nodo
+typedef struct Nodo
 {
     int matricula;
 	char *nome;	
@@ -21,7 +20,7 @@ struct Nodo
     struct Nodo *esquerda;
     struct Nodo *direita;
     int altura;
-};
+}Nodo;
 
 typedef struct registro
 {
@@ -34,18 +33,18 @@ typedef struct registro
 }registro;
 
 
-int altura_arvore(struct Nodo *novo);
+int altura_arvore(Nodo *novo);
 int maximo(int a, int b);
 struct Nodo* novo_nodo(registro linha_arquivo);
-struct Nodo *rotacao_direita(struct Nodo *atual);
-struct Nodo *rotacao_esquerda(struct Nodo *atual);
-int fator_balanceamento(struct Nodo *atual);
-struct Nodo* inserir_avl(struct Nodo* nodo, registro linha_arquivo);
-struct Nodo * menor_valor_avl(struct Nodo* nodo);
-struct Nodo* deletar_avl(struct Nodo* raiz, int matricula);
-struct Nodo* busca_nodo_nome(struct Nodo* raiz, char *nome);
-struct Nodo* busca_nodo_matricula(struct Nodo* raiz, int matricula);
-void impressao_formato_arvore(struct Nodo *raiz, int espaco);
+struct Nodo *rotacao_direita(Nodo *atual);
+struct Nodo *rotacao_esquerda(Nodo *atual);
+int fator_balanceamento(Nodo *atual);
+struct Nodo* inserir_avl(Nodo *nodo, registro linha_arquivo);
+struct Nodo * menor_valor_avl(Nodo *nodo);
+struct Nodo* deletar_avl(Nodo *raiz, int matricula);
+struct Nodo* busca_nodo_nome(Nodo *raiz, char *nome);
+struct Nodo* busca_nodo_matricula(Nodo *raiz, int matricula);
+void impressao_formato_arvore(Nodo *raiz, int espaco);
 struct registro quebra_string(char *string_recebida);
 
 int main() {	
@@ -53,7 +52,7 @@ int main() {
 	FILE *arquivo; //variável para conter o arquivo csv a ser lido
 	char linha_atual [tamanho_caracteres_linha]; //ponteiro de caracter (string) para conter a linha atual lida do arquivo
 
-	struct Nodo *raiz = NULL;
+	Nodo *raiz = NULL;
 
 	registro linha;
 
@@ -77,7 +76,7 @@ int main() {
 		{
 			linha = quebra_string(linha_atual); //função para "quebrar" string
 
-			//inserir_avl(raiz,linha);
+			inserir_avl(raiz,linha);
 		}
 		
 		qt_linhas_lidas++;
@@ -91,7 +90,7 @@ int main() {
 }
 
 // A utility function to get altura of the tree
-int altura_arvore(struct Nodo *novo)
+int altura_arvore(Nodo *novo)
 {
     if (novo == NULL)
     {
@@ -131,7 +130,7 @@ struct Nodo* novo_nodo(registro linha_arquivo)
     return(nodo);
 }
 
-struct Nodo *rotacao_direita(struct Nodo *atual)
+struct Nodo *rotacao_direita(Nodo *atual)
 {
     struct Nodo *novo_nodo = atual->esquerda;
     struct Nodo *temporario = novo_nodo->direita;
@@ -149,7 +148,7 @@ struct Nodo *rotacao_direita(struct Nodo *atual)
 }
 
 // Função que rotaciona a esquerda a subàrvore do nó desbalanceado
-struct Nodo *rotacao_esquerda(struct Nodo *atual)
+struct Nodo *rotacao_esquerda(Nodo *atual)
 {
     struct Nodo *novo_nodo = atual->direita;
     struct Nodo *temporario = novo_nodo->esquerda;
@@ -166,7 +165,7 @@ struct Nodo *rotacao_esquerda(struct Nodo *atual)
     return novo_nodo;
 }
 
-int fator_balanceamento(struct Nodo *atual)
+int fator_balanceamento(Nodo *atual)
 {
     if (atual == NULL)
     {
@@ -176,7 +175,7 @@ int fator_balanceamento(struct Nodo *atual)
     return altura_arvore(atual->esquerda) - altura_arvore(atual->direita);
 }
 
-struct Nodo* inserir_avl(struct Nodo* nodo, registro linha_arquivo)
+struct Nodo* inserir_avl(Nodo *nodo, registro linha_arquivo)
 {
     //1.  Faz a rotação normal na ABB
     if (nodo == NULL)
@@ -239,7 +238,7 @@ struct Nodo* inserir_avl(struct Nodo* nodo, registro linha_arquivo)
     return nodo;
 }
 
-struct Nodo * menor_valor_avl(struct Nodo* nodo)
+struct Nodo * menor_valor_avl(Nodo *nodo)
 {
     struct Nodo* atual = nodo;
  
@@ -252,7 +251,7 @@ struct Nodo * menor_valor_avl(struct Nodo* nodo)
     return atual;
 }
 
-struct Nodo* deletar_avl(struct Nodo* raiz, int matricula)
+struct Nodo* deletar_avl(Nodo *raiz, int matricula)
 {
     // PASSO 1: Deleção padrão de ABB
  
@@ -356,7 +355,7 @@ struct Nodo* deletar_avl(struct Nodo* raiz, int matricula)
     return raiz;
 }
 
-struct Nodo* busca_nodo_nome(struct Nodo* raiz, char *nome)
+struct Nodo* busca_nodo_nome(Nodo *raiz, char *nome)
 {
 	int auxiliar_comparador = strcmp(raiz->nome,nome);
     
@@ -378,7 +377,7 @@ struct Nodo* busca_nodo_nome(struct Nodo* raiz, char *nome)
     }
 }
 
-struct Nodo* busca_nodo_matricula(struct Nodo* raiz, int matricula)
+struct Nodo* busca_nodo_matricula(Nodo *raiz, int matricula)
 {
     if(raiz == NULL) //se a árvore estiver vazia ou o valor não for encontrado
     {
@@ -398,7 +397,7 @@ struct Nodo* busca_nodo_matricula(struct Nodo* raiz, int matricula)
     }
 }
 
-void impressao_formato_arvore(struct Nodo *raiz, int espaco)
+void impressao_formato_arvore(Nodo *raiz, int espaco)
 {
     // Caso base
     if (raiz == NULL)
