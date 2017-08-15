@@ -7,8 +7,8 @@
 
 void quebra_string(char *string_recebida);
 
-void inserir_arvore(tipo_nodo nome_nodo_arvore, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
-void inserir_lista(tipo_nodo nome_nodo_lista, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
+//void inserir_arvore(tipo_nodo nome_nodo_arvore, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
+//void inserir_lista(tipo_nodo nome_nodo_lista, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
 
 int main() {	
 
@@ -105,8 +105,8 @@ void quebra_string(char *string_recebida)
 				printf("Salario: %.2lf\n", salario);
 			}
 
-			inserir_arvore(tipo_nodo nome_nodo_arvore, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
-			inserir_lista(tipo_nodo nome_nodo_lista, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
+			//inserir_arvore(tipo_nodo nome_nodo_arvore, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
+			//inserir_lista(tipo_nodo nome_nodo_lista, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
 		}
 	}
 	
