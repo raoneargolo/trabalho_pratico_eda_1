@@ -76,7 +76,7 @@ int main() {
 		{
 			linha = quebra_string(linha_atual); //função para "quebrar" string
 
-			inserir_avl(raiz,linha);
+			//inserir_avl(raiz,linha);
 		}
 		
 		qt_linhas_lidas++;
@@ -453,7 +453,7 @@ registro quebra_string(char *string_recebida)
 	
 	//o contador abaixo é responsável por indicar em qual coluna a quebra de string está sendo efetuada, para armazenar o resultado
 	//da quebra na variável correta
-	int contador_variaveis_alocacao=1; //inciada com 1 pois a primeira coluna da linha foi quebrada
+	int contador_variaveis_alocacao = 1; //inciada com 1 pois a primeira coluna da linha foi quebrada
 
 	//o loop começa a operar a partir da segunda coluna (nome do empregado) até o final da linha
 	while(string_cortada != NULL)
@@ -486,16 +486,15 @@ registro quebra_string(char *string_recebida)
 			}
 			if(contador_variaveis_alocacao == 6) //Condição para colocar a string correta na variável salário
 			{
-				linha_arquivo.salario=strtod(string_cortada,NULL); //função que converte o conteúdo da string cortada para double 
-													 			   //e o armazena na variável salário
+				linha_arquivo.salario=strtod(string_cortada,NULL); //função que converte o conteúdo da string cortada para double e o armazena na variável salário
 				printf("Salario: %.2lf\n", linha_arquivo.salario);
 			}
-
-			//printf("\nfim das impressoes dentro da funcao quebra string\n");
-
-			return linha_arquivo;
 		}
 	}
-	
+
 	printf("\n");
+
+	//printf("\nfim das impressoes dentro da funcao quebra string\n");
+		
+	return linha_arquivo;
 }
