@@ -1,8 +1,8 @@
 //Quebra de string: ok
 //Inserção no nó da árvore: ok
 //Impressão: ok
-//Remoção:
-//Busca por matricula:
+//Remoção: ok (testar mais)
+//Busca por matricula: ok
 //Busca por nome:
 
 #include <stdio.h>
@@ -130,6 +130,43 @@ int main() {
 	//printf("\nChamando funcao de impressao\n");
 
 	impressao_formato_arvore(raiz,0);
+
+	/*int matricula_busca;
+
+	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
+
+	printf("\nDigite um numero de matricula para busca: ");
+	scanf("%d",&matricula_busca);
+
+	busca_nodo_matricula(raiz,matricula_busca);*/
+
+	/*char nome_busca[tamanho_caracteres];
+	
+	printf("\nDigite um nome para busca: ");
+	fflush(stdin);
+	fgets(nome_busca,tamanho_caracteres,stdin);
+	
+	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
+
+	busca_nodo_nome(raiz,nome_busca);*/
+
+	int matricula_busca;
+
+	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
+
+	printf("\nDigite um numero de matricula para busca e posterior remocao: ");
+	scanf("%d",&matricula_busca);
+
+	if(busca_nodo_matricula(raiz,matricula_busca)!=NULL)
+	{
+		raiz = deletar_avl(raiz,matricula_busca);
+		printf("\n\t\tArvore AVL apos remocao\n");
+		impressao_formato_arvore(raiz,0);
+	}
+	else
+	{
+		printf("\n\t\tVALOR NAO ENCONTRADO\n");
+	}
 
 	fclose(arquivo); //função para fechar o arquivo recebido e lido
 
@@ -473,45 +510,102 @@ Nodo* deletar_avl(Nodo *raiz, int matricula)
     return raiz;
 }
 
-Nodo* busca_nodo_nome(Nodo *raiz, char *nome)
+/*Nodo* busca_nodo_nome(Nodo *atual, char *nome)
 {
-	int auxiliar_comparador = strcmp(raiz->nome,nome);
-    
-    if(raiz == NULL) //se a árvore estiver vazia ou o valor não for encontrado
+	printf("\nEntrei na funcao\n");
+	int auxiliar_comparador = strcmp(nome,atual->nome);
+    printf("\nValor do comparador: %d",auxiliar_comparador);
+    if(atual == NULL) //se a árvore estiver vazia ou o valor não for encontrado
     {
+    	printf("\n\tNODO NAO ENCONTRADO\n");
         return NULL;
     }
-    else if(auxiliar_comparador > 0) //quando o valor buscado é menor que o valor presente no nó atual
+    else if(auxiliar_comparador < 0) //quando o valor buscado é menor que o valor presente no nó atual
     {
-        return busca_nodo_nome(raiz->esquerda,nome);//busca na árvore continua pelo nó filho a esquerda do nó atual
+    	printf("\nA palavra no nodo atual (%s) e menor que a palavra buscada. Indo pra esquerda",atual->nome);
+        return busca_nodo_nome(atual->esquerda,nome);//busca na árvore continua pelo nó filho a esquerda do nó atual
     }
-    else if(auxiliar_comparador < 0) //quando o valor buscado é maior que o valor presente no nó atual
+    else if(auxiliar_comparador > 0) //quando o valor buscado é maior que o valor presente no nó atual
     {
-        return busca_nodo_nome(raiz->direita,nome);//busca na árvore continua pelo nó filho a direita do nó atual
+    	printf("\nA palavra no nodo atual (%s) e maior que a palavra buscada. Indo pra direita",atual->nome);
+        return busca_nodo_nome(atual->direita,nome);//busca na árvore continua pelo nó filho a direita do nó atual
     }
     else
     {
-        return raiz; //quando o nó com o valor buscado é encontrado
+    	printf("\nNODO ENCONTRADO\n");
+    	printf("\nNumero de matricula: %d",atual->matricula);
+    	printf("\nNome: %s",atual->nome);
+    	printf("\nSobrenome: %s",atual->sobrenome);
+    	printf("\nTelefone: %s",atual->telefone);
+    	printf("\nE-mail: %s",atual->email);
+    	printf("\nSalario: %.2lf",atual->salario);
+    	printf("\n");
+        return atual; //quando o nó com o valor buscado é encontrado
+    }
+}*/
+
+Nodo* busca_nodo_nome(Nodo *atual, char *nome)
+{
+	int auxiliar_comparador = strcmp(nome,atual->nome);
+	int nome_nodo;
+	int nome_busca = atoi(nome);
+    if(atual == NULL) //se a árvore estiver vazia ou o valor não for encontrado
+    {
+    	printf("\n\tNODO NAO ENCONTRADO\n");
+        return NULL;
+    }
+    else if(auxiliar_comparador < 0) //quando o valor buscado é menor que o valor presente no nó atual
+    {
+    	//nome = atoi(atual->nome);
+    	printf("\nA palavra no nodo atual (%d) e menor que a palavra buscada(%d). Indo pra esquerda",nome_nodo,nome_busca);
+        return busca_nodo_nome(atual->esquerda,nome);//busca na árvore continua pelo nó filho a esquerda do nó atual
+    }
+    else if(auxiliar_comparador > 0) //quando o valor buscado é maior que o valor presente no nó atual
+    {
+    	//nome = atoi(atual->nome);
+    	printf("\nA palavra no nodo atual (%d) e maior que a palavra buscada(%d). Indo pra direita",nome_nodo,nome_busca);
+        return busca_nodo_nome(atual->direita,nome);//busca na árvore continua pelo nó filho a direita do nó atual
+    }
+    else
+    {
+    	printf("\nNODO ENCONTRADO\n");
+    	printf("\nNumero de matricula: %d",atual->matricula);
+    	printf("\nNome: %s",atual->nome);
+    	printf("\nSobrenome: %s",atual->sobrenome);
+    	printf("\nTelefone: %s",atual->telefone);
+    	printf("\nE-mail: %s",atual->email);
+    	printf("\nSalario: %.2lf",atual->salario);
+    	printf("\n");
+        return atual; //quando o nó com o valor buscado é encontrado
     }
 }
 
-Nodo* busca_nodo_matricula(Nodo *raiz, int matricula)
+Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
 {
-    if(raiz == NULL) //se a árvore estiver vazia ou o valor não for encontrado
+    if(atual == NULL) //se a árvore estiver vazia ou o valor não for encontrado
     {
+    	printf("\n\tNODO NAO ENCONTRADO\n");
         return NULL;
     }
-    else if(raiz->matricula > matricula) //quando o valor buscado é menor que o valor presente no nó atual
+    else if(matricula < atual->matricula) //quando o valor buscado é menor que o valor presente no nó atual
     {
-        return busca_nodo_matricula(raiz->esquerda,matricula);//busca na árvore continua pelo nó filho a esquerda do nó atual
+        return busca_nodo_matricula(atual->esquerda,matricula);//busca na árvore continua pelo nó filho a esquerda do nó atual
     }
-    else if(raiz->matricula < matricula) //quando o valor buscado é maior que o valor presente no nó atual
+    else if(matricula > atual->matricula) //quando o valor buscado é maior que o valor presente no nó atual
     {
-        return busca_nodo_matricula(raiz->direita,matricula);//busca na árvore continua pelo nó filho a direita do nó atual
+        return busca_nodo_matricula(atual->direita,matricula);//busca na árvore continua pelo nó filho a direita do nó atual
     }
     else
-    {
-        return raiz; //quando o nó com o valor buscado é encontrado
+    {	
+    	/*printf("\nNODO ENCONTRADO\n");
+    	printf("\nNumero de matricula: %d",atual->matricula);
+    	printf("\nNome: %s",atual->nome);
+    	printf("\nSobrenome: %s",atual->sobrenome);
+    	printf("\nTelefone: %s",atual->telefone);
+    	printf("\nE-mail: %s",atual->email);
+    	printf("\nSalario: %.2lf",atual->salario);
+    	printf("\n");*/
+        return atual; //quando o nó com o valor buscado é encontrado
     }
 }
 
