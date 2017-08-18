@@ -1,71 +1,48 @@
 //Autor: Eric Sampaio
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #define TAM 50
 
-//Arvore
-typedef struct Celula {
-	int matricula;
-	char *nome;	
-	char *sobrenome;
-	char *email;
-	char *telefone;
-	double salario;
-	struct Celula *proximo;
-	struct Celula *anterior;
-}Celula,*RegistroARV;
-
-//Lista Duplamente
-typedef struct CelulaDUP {
-	int matricula;
-	char *nome;	
-	char *sobrenome;
-	char *email;
-	long int *telefone;
-	double salario;
-	struct CelulaDUP *proximo;
-	struct CelulaDUP *anterior;
-}CelulaDUP,*RegistroLIST;
-
-//FUNCOES
-
-//Funcao na insere na lista
-//Funcao insere na arvore
-//Funcao Importação
-
-void ImportacaoAquivo(){
-};
 
 
 int main(int argc, char **argv)
 {	
-	char c;
-	int x,y,z;
-	RegistroARV *Arv;
-	FILE *arq;
-	int mat;
-	char nome[TAM],Snome[TAM],email[TAM],telefone[TAM];
-	double salario;
-	char frase [1000];
+//int result;
 
+	FILE *arq;
+
+	char frase [1000];
+	char nome_arq[150];
+
+	printf("informe o nome do arquivo\n");
+	scanf("%s",nome_arq);
+
+	//result = strcmp (nome_arq, "teste1");
 	
-	arq=fopen("teste1.txt","r");		// Leitura de arquivo
+	printf("Abrindo arquivo... \n\n");
+		arq=fopen("nome_arq","r");		// Leitura de arquivo
+		while (fgets(frase,1000,arq)!=NULL){
+			printf("%s",frase);
+		}
 	
-	if (arq == NULL){					//Tratamento caso nao encontre o arquivo
+	/*if ( result== 0)
+	{
+		printf("Abrindo arquivo... \n\n");
+		arq=fopen("%s",nome_arq);		// Leitura de arquivo
+		while (fgets(frase,1000,arq)!=NULL){
+			printf("%s",frase);
+		}
+	}
+	else
+	{					//Tratamento caso nao encontre o arquivo
 		printf("Arquivo nao encontrado");
 		return 0;
 	}
-//	fscan (arq,"%d",)Arv->email=
-/*
-	while (fgets(frase,1000,arq)!=NULL){
-		printf("%s",frase);
-		
-	}
 	*/
-//	while (!feof(arq)){
-		fscanf(arq,"%d %s %s %s %s %lf",&mat,nome,Snome,email,telefone,&salario);
-		printf("%d %s %s %s %s %.2lf\n",mat,nome,Snome,email,telefone,salario);
-//	}
+	
+	
+
 	fclose(arq);
 return 0;
 }
