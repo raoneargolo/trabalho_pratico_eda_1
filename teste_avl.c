@@ -3,8 +3,8 @@
 //Impressão: Ok
 //Remoção: Ok
 //Busca por matricula: Ok
-//Busca por nome:
-//Inserção manual (busca e vê se não está na estrutura): 
+//Busca por nome: OK
+//Inserção manual (busca e vê se não está na estrutura): Ok
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,6 +90,8 @@ int main() {
 		qt_linhas_lidas++;
 	}
 
+	fclose(arquivo); //função para fechar o arquivo recebido e lido
+
 	impressao_formato_arvore(raiz,0);
 
 	//Busca por matricula
@@ -108,14 +110,14 @@ int main() {
 	}*/
 
 	//Busca por nome
-	char nome_busca[tamanho_caracteres];
+	/*char nome_busca[tamanho_caracteres];
 	
 	printf("\nDigite um nome para busca: ");
 	fflush(stdin);
 	scanf("%s",nome_busca);
 
 	int achou = busca_nodo_nome(raiz,nome_busca);
-	printf("Achou ? => %s\n", achou ? "sim" : "nao");
+	printf("Achou ? => %s\n", achou ? "sim" : "nao");*/
 
 	//Remoção por matrícula (busca e depois remove se encontrar)
 	/*int matricula_busca;
@@ -144,7 +146,52 @@ int main() {
 		scanf("%d",&matricula_busca);
 	}*/
 
-	fclose(arquivo); //função para fechar o arquivo recebido e lido
+	int matricula_busca;
+	printf("\nDigite uma matricula para inserir: ");
+	scanf(" %d",&matricula_busca);
+
+	registro *insercao_manual = malloc(sizeof(registro));
+	
+	if(busca_nodo_matricula(raiz,matricula_busca) == NULL)
+	{
+		printf("\nMatricula liberada");
+		insercao_manual->matricula = matricula_busca;
+
+		printf("\nNome: ");
+		char nome[tamanho_caracteres];
+		scanf("%s",nome);
+		strcpy(insercao_manual->nome,nome);
+
+		printf("\nSobrenome: ");
+		char sobrenome[tamanho_caracteres];
+		scanf("%s",sobrenome);
+		strcpy(insercao_manual->sobrenome,sobrenome);
+
+		printf("\nE-mail: ");
+		char email[tamanho_caracteres];
+		scanf("%s",email);
+		strcpy(insercao_manual->email,email);
+
+		printf("\nTelefone: ");
+		char telefone[tamanho_caracteres];
+		scanf("%s",telefone);
+		strcpy(insercao_manual->telefone,telefone);
+
+		printf("\nSalario: ");
+		double salario;
+		scanf("%lf",&salario);
+		insercao_manual->salario=salario;
+
+
+		raiz = inserir_avl(raiz,insercao_manual);
+
+		impressao_formato_arvore(raiz,0);
+
+	}
+	else
+	{
+		printf("\nMatricula bloqueada. Ja existe\n");
+	}
 
 	return 0;
 }
@@ -243,6 +290,7 @@ Nodo* inserir_avl(Nodo *nodo, registro *linha)
     {
         return(novo_nodo(linha));
     }
+
     if (linha->matricula < nodo->matricula)
     {
         nodo->esquerda  = inserir_avl(nodo->esquerda, linha);
