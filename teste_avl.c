@@ -37,54 +37,32 @@ typedef struct registro
 	double salario; //variável que armazena o dado da sexta coluna do arquivo csv: salario do empregado
 }registro;
 
-/*typedef struct registro
-{
-	int matricula; //variável que armazena o dado da primeira coluna do arquivo csv: o número de matrícula
-	char *nome; //varável que armazena o dado da segunda coluna do arquivo csv: o nome do empregado
-	char *sobrenome;//variável que armazena o dado da terceira coluna do arquivo csv: sobrenome do empregado
-	char *email; //variável que armazena o dado da quarta coluna do arquivo csv: e-mail do empregado
-	char *telefone; //variável que armazena o dado da quinta coluna do arquivo csv: telefone do empregado
-	double salario; //variável que armazena o dado da sexta coluna do arquivo csv: salario do empregado
-}registro;*/
-
-
 int altura_arvore(Nodo *novo);
 int maximo(int a, int b);
 Nodo* novo_nodo(registro linha_arquivo);
-//Nodo* novo_nodo (int matricula, char nome, char sobrenome, char email, char telefone, double salario);
-//Nodo* novo_nodo (int matricula, char *nome, char *sobrenome, char *email, char *telefone, double salario);
 Nodo *rotacao_direita(Nodo *atual);
 Nodo *rotacao_esquerda(Nodo *atual);
 int fator_balanceamento(Nodo *atual);
 Nodo* inserir_avl(Nodo *nodo, registro linha);
-//Nodo* inserir_avl(Nodo *nodo, int matricula, char *nome, char *sobrenome, char *email, char *telefone, double salario);
-//Nodo* inserir_avl(Nodo *nodo, int matricula, char nome, char sobrenome, char email, char telefone, double salario);
 Nodo * menor_valor_avl(Nodo *nodo);
 Nodo* deletar_avl(Nodo *raiz, int matricula);
-Nodo* busca_nodo_nome(Nodo *raiz, char *nome);
+int busca_nodo_nome(Nodo *raiz, char *nome);
 Nodo* busca_nodo_matricula(Nodo *raiz, int matricula);
 void impressao_formato_arvore(Nodo *raiz, int espaco);
 registro quebra_string(char *string_recebida);
+int erd (Nodo *atual, char *nome);
 
 int main() {	
 
-	//printf("\nInicio do main\n");
-
-	//printf("\nCriando arquivo");
 	FILE *arquivo; //variável para conter o arquivo csv a ser lido
-	//printf("\nArquivo criado");
-	//printf("\nCriando string (vetor de char)");
+	
 	char linha_atual[tamanho_caracteres_linha]; //ponteiro de caracter (string) para conter a linha atual lida do arquivo
-	//printf("\nString criada (vetor de char)");
-	//printf("\nCriando raiz da AVL");
+	
 	Nodo *raiz = NULL;
-	//printf("\nRaiz da AVL criada");
-	//printf("\nStruct registro criada");
-	registro linha;
-	//printf("\nStruct registro criada");
-	//printf("\nAbrindo arquivo");
-	arquivo = fopen("teste1.csv","r"); //Procedimento para leitura do arquivo csv
-	//printf("\nArquivo criado");
+	
+    registro linha;
+	
+    arquivo = fopen("MOCK_DATA.csv","r"); //Procedimento para leitura do arquivo csv
 	
 	if (arquivo == NULL) //Caso o arquivo não seja encontrado
 	{
@@ -105,30 +83,12 @@ int main() {
 		if(qt_linhas_lidas>1) //Assumind
 		{
 			linha = quebra_string(linha_atual); //função para "quebrar" string
-			
-			/*printf("\nValores contidos no registro (dentro do if)\n");
-			printf("Numero de Matricula: %d\n", linha.matricula);
-			printf("Nome: %s\n", linha.nome);			
-			printf("Sobrenome: %s\n", linha.sobrenome);
-			printf("E-mail: %s\n", linha.email);
-			printf("Telefone: %s\n", linha.telefone);
-			printf("Salario: %.2lf\n", linha.salario);*/
 
-			//printf("\nChamada de insercao: %d\n",chamada_insercao);
 			raiz = inserir_avl(raiz,linha);
-			//chamada_insercao++;
-			//raiz = inserir_avl(raiz,linha.matricula,linha.nome,linha.sobrenome,linha.email,linha.telefone,linha.salario);
-
-			//raiz = novo_nodo(linha);
-			//raiz = novo_nodo(linha.matricula,linha.nome,linha.sobrenome,linha.email,linha.telefone,linha.salario);
 		}
 		
 		qt_linhas_lidas++;
 	}
-
-	//printf("\nFim do main\n");
-
-	//printf("\nChamando funcao de impressao\n");
 
 	impressao_formato_arvore(raiz,0);
 
@@ -149,11 +109,24 @@ int main() {
 	printf("\nDigite um nome para busca: ");
 	fflush(stdin);
 	scanf("%s",nome_busca);
-	
-	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
 
-	busca_nodo_nome(raiz,nome_busca);*/
+    //int resultado_busca = busca_nodo_nome(raiz,nome_busca);
+    
+    //printf("\nResultado da busca: %d\n",resultado_busca);
 
+	int validador = 0;
+    if(erd(raiz,nome_busca)==0)
+    {
+    	printf("\nACHEI\n");
+    	validador = 1;
+    }
+    else if(erd(raiz,nome_busca)!=0)
+    {
+    	if(validador = 0)
+    	{
+    		printf("\nNAO ACHEI\n");
+    	}
+    }*/
 
 	//Remoção por matrícula (busca e depois remove se encontrar)
 	/*int matricula_busca;
@@ -199,66 +172,27 @@ int maximo(int a, int b)
     return (a > b)? a : b;
 }
 
-//Nodo* novo_nodo (int matricula, char *nome, char *sobrenome, char *email, char *telefone, double salario)
-//Nodo* novo_nodo (int matricula, char nome, char sobrenome, char email, char telefone, double salario)
 Nodo* novo_nodo(registro linha)
 {
-	//printf("\nentrei na funcao de criar um novo nodo\n");
     Nodo* nodo = (Nodo*)malloc(sizeof(Nodo));
-    //printf("\nAloquei novo nodo\n");
-
-    /*printf("\nValores passados para a funcao de criar novo nodo\n");
-    printf("Numero de Matricula: %d\n", linha.matricula);
-	printf("Nome: %s\n", linha.nome);			
-	printf("Sobrenome: %s\n", linha.sobrenome);
-	printf("E-mail: %s\n", linha.email);
-	printf("Telefone: %s\n", linha.telefone);
-	printf("Salario: %.2lf\n", linha.salario);*/
-
-    /*printf("\nValores passados para a funcao\n");
-	printf("Numero de Matricula: %d\n", matricula);
-	printf("Nome: %s\n", nome);			
-	printf("Sobrenome: %s\n", sobrenome);
-	printf("E-mail: %s\n", email);
-	printf("Telefone: %s\n", telefone);
-	printf("Salario: %.2lf\n", salario);*/
 
 	nodo->matricula = linha.matricula;
-	//nodo->matricula = matricula;
-	//printf("\nMatricula: ok\n");
-
-	/*printf("\nAntes de strcpy - Dentro de nodo->nome: %s\n",nodo->nome);
-	printf("\nAntes de strcpy - Dentro de linha.nome: %s\n",linha.nome);*/
+    
     strcpy(nodo->nome,linha.nome);
-    /*printf("\nDepois de strcpy - Dentro de nodo->nome: %s\n",nodo->nome);
-    printf("\nDepois de strcpy - Dentro de linha.nome: %s\n",linha.nome);*/
-    //strcpy(nodo->nome,nome);
-    //printf("\nNome: ok\n");
     
     strcpy(nodo->sobrenome,linha.sobrenome);
-    //strcpy(nodo->sobrenome,sobrenome);
-    //printf("\nSobrenome: ok\n");
     
     strcpy(nodo->email,linha.email);
-    //strcpy(nodo->email,email);
-    //printf("\nEmail: ok\n");
     
     strcpy(nodo->telefone,linha.telefone);
-    //strcpy(nodo->telefone,telefone);
-    //printf("\nTelefone: ok\n");
     
     nodo->salario = linha.salario;
-    //nodo->salario = salario;
-    //printf("\nSalario: ok\n");
-
+    
     nodo->esquerda = NULL;
-    //printf("\nFilho a esquerda NULL\n");
     
     nodo->direita = NULL;
-    //printf("\nFilho a direita NULL\n");
 
     nodo->altura = 1;  // novo nó é inicialmente adcionado nas folhas
-    //printf("\nAltura 1\n");
 
     return(nodo);
 }
@@ -308,55 +242,23 @@ int fator_balanceamento(Nodo *atual)
     return altura_arvore(atual->esquerda) - altura_arvore(atual->direita);
 }
 
-//Nodo* inserir_avl(Nodo *nodo, int matricula, char *nome, char *sobrenome, char *email, char *telefone, double salario)
-//Nodo* inserir_avl(Nodo *nodo, int matricula, char nome, char sobrenome, char email, char telefone, double salario)
 Nodo* inserir_avl(Nodo *nodo, registro linha)
 {
-	//printf("\nEntrei na funcao de insercao\n");
-
-	/*printf("\nValores passados para a funcao de insercao\n");
-	printf("Numero de Matricula: %d\n", linha.matricula);
-	printf("Nome: %s\n", linha.nome);			
-	printf("Sobrenome: %s\n", linha.sobrenome);
-	printf("E-mail: %s\n", linha.email);
-	printf("Telefone: %s\n", linha.telefone);
-	printf("Salario: %.2lf\n", linha.salario);*/
-
-	/*printf("Numero de Matricula: %d\n",matricula);
-	printf("Nome: %s\n",nome);			
-	printf("Sobrenome: %s\n",sobrenome);
-	printf("E-mail: %s\n",email);
-	printf("Telefone: %s\n",telefone);
-	printf("Salario: %.2lf\n",salario);*/
-
     //1.  Faz a rotação normal na ABB
-    //printf("\nVerificando se a arvore esta vazia\n");
     if (nodo == NULL)
     {
-    	//printf("\nAVL Vazia. Criando nodo");
         return(novo_nodo(linha));
-        //return(novo_nodo(matricula,&nome,&sobrenome,&email,&telefone,salario));
     }
- 	//printf("\nVerificando se a matricula e menor que o nodo atual\n");
     if (linha.matricula < nodo->matricula)
-    //if (matricula < nodo->matricula)
     {
-    	//printf("\nMatricula menor que o nodo atual");
         nodo->esquerda  = inserir_avl(nodo->esquerda, linha);
-        //nodo->esquerda  = inserir_avl(nodo->esquerda,matricula,nome,sobrenome,email,telefone,salario);
     }
-    //printf("\nVerificando se a matricula e maior que o nodo atual\n");
-    //else if (matricula > nodo->matricula)
 	else if (linha.matricula > nodo->matricula)    	
     {
-    	//printf("\nMatricula maior que o nodo atual");
         nodo->direita = inserir_avl(nodo->direita, linha);
-        //nodo->direita  = inserir_avl(nodo->direita,matricula,nome,sobrenome,email,telefone,salario);
     }
-    //printf("\nA matricula e igual ao nodo atual\n");
     else // Valores iguais não são permitidos
     {
-    	//printf("\nMatricula igual ao nodo atual");
         return nodo;
     }
  
@@ -370,21 +272,18 @@ Nodo* inserir_avl(Nodo *nodo, registro linha)
  
     // Caso esquerda esquerda
     if (balance > 1 && linha.matricula < nodo->esquerda->matricula)
-    //if (balance > 1 && matricula < nodo->esquerda->matricula)
     {
         return rotacao_direita(nodo);
     }
  
     // Caso direita direita
     if (balance < -1 && linha.matricula > nodo->direita->matricula)
-    //if (balance < -1 && matricula > nodo->direita->matricula)
     {
         return rotacao_esquerda(nodo);
     }
  
     // Caso esquerda direita
     if (balance > 1 && linha.matricula > nodo->esquerda->matricula)
-    //if (balance > 1 && matricula > nodo->esquerda->matricula)
     {
         nodo->esquerda =  rotacao_esquerda(nodo->esquerda);
         return rotacao_direita(nodo);
@@ -392,7 +291,6 @@ Nodo* inserir_avl(Nodo *nodo, registro linha)
  
     // Caso direita esquerda
     if (balance < -1 && linha.matricula < nodo->direita->matricula)
-    //if (balance < -1 && matricula < nodo->direita->matricula)
     {
         nodo->direita = rotacao_direita(nodo->direita);
         return rotacao_esquerda(nodo);
@@ -519,75 +417,57 @@ Nodo* deletar_avl(Nodo *raiz, int matricula)
     return raiz;
 }
 
-/*Nodo* busca_nodo_nome(Nodo *atual, char *nome)
+/*int busca_nodo_nome(Nodo *atual, char *nome)
 {
-	printf("\nEntrei na funcao\n");
-	int auxiliar_comparador = strcmp(nome,atual->nome);
-    printf("\nValor do comparador: %d",auxiliar_comparador);
-    if(atual == NULL) //se a árvore estiver vazia ou o valor não for encontrado
+    if(atual == NULL)
     {
-    	printf("\n\tNODO NAO ENCONTRADO\n");
-        return NULL;
-    }
-    else if(auxiliar_comparador < 0) //quando o valor buscado é menor que o valor presente no nó atual
-    {
-    	printf("\nA palavra no nodo atual (%s) e menor que a palavra buscada. Indo pra esquerda",atual->nome);
-        return busca_nodo_nome(atual->esquerda,nome);//busca na árvore continua pelo nó filho a esquerda do nó atual
-    }
-    else if(auxiliar_comparador > 0) //quando o valor buscado é maior que o valor presente no nó atual
-    {
-    	printf("\nA palavra no nodo atual (%s) e maior que a palavra buscada. Indo pra direita",atual->nome);
-        return busca_nodo_nome(atual->direita,nome);//busca na árvore continua pelo nó filho a direita do nó atual
+    	//printf("\n\t\tNao existe matricula com o nome pesquisado\n");
+    	return 0;
     }
     else
     {
-    	printf("\nNODO ENCONTRADO\n");
-    	printf("\nNumero de matricula: %d",atual->matricula);
-    	printf("\nNome: %s",atual->nome);
-    	printf("\nSobrenome: %s",atual->sobrenome);
-    	printf("\nTelefone: %s",atual->telefone);
-    	printf("\nE-mail: %s",atual->email);
-    	printf("\nSalario: %.2lf",atual->salario);
-    	printf("\n");
-        return atual; //quando o nó com o valor buscado é encontrado
+    	int resultado_comparacao = strcmp(atual->nome,nome);
+
+    	if(resultado_comparacao == 0)
+    	{
+    		return 1;
+    	}
+    	else
+    	{
+    		busca_nodo_nome(atual->esquerda,nome);
+    		busca_nodo_nome(atual->direita,nome);
+    	}
+    }
+}// fim da função busca por nome*/
+
+/*int erd (Nodo *atual, char *nome)
+{
+	int comparador;
+    if (atual != NULL)
+    {
+    	comparador = strcmp(atual->nome,nome);
+    	if(comparador == 0)
+    	{
+    		printf("\nACHEI 1\n");
+    		return 0;
+    	}
+       	erd (atual->esquerda,nome);
+       	comparador = strcmp(atual->nome,nome);
+    	if(comparador == 0)
+    	{
+    		printf("\nACHEI 2\n");
+    		return 0;
+    	}
+       	printf ("%s\n", atual->nome);
+       	erd (atual->direita,nome); 
+       	comparador = strcmp(atual->nome,nome);
+    	if(comparador == 0)
+    	{
+    		printf("\nACHEI 3\n");
+    		return 0;
+    	}
     }
 }*/
-
-Nodo* busca_nodo_nome(Nodo *atual, char *nome)
-{
-	int auxiliar_comparador = strcmp(nome,atual->nome);
-	int nome_nodo;
-	int nome_busca = atoi(nome);
-    if(atual == NULL) //se a árvore estiver vazia ou o valor não for encontrado
-    {
-    	printf("\n\tNODO NAO ENCONTRADO\n");
-        return NULL;
-    }
-    else if(auxiliar_comparador < 0) //quando o valor buscado é menor que o valor presente no nó atual
-    {
-    	//nome = atoi(atual->nome);
-    	printf("\nA palavra no nodo atual (%d) e menor que a palavra buscada(%d). Indo pra esquerda",nome_nodo,nome_busca);
-        return busca_nodo_nome(atual->esquerda,nome);//busca na árvore continua pelo nó filho a esquerda do nó atual
-    }
-    else if(auxiliar_comparador > 0) //quando o valor buscado é maior que o valor presente no nó atual
-    {
-    	//nome = atoi(atual->nome);
-    	printf("\nA palavra no nodo atual (%d) e maior que a palavra buscada(%d). Indo pra direita",nome_nodo,nome_busca);
-        return busca_nodo_nome(atual->direita,nome);//busca na árvore continua pelo nó filho a direita do nó atual
-    }
-    else
-    {
-    	printf("\nNODO ENCONTRADO\n");
-    	printf("\nNumero de matricula: %d",atual->matricula);
-    	printf("\nNome: %s",atual->nome);
-    	printf("\nSobrenome: %s",atual->sobrenome);
-    	printf("\nTelefone: %s",atual->telefone);
-    	printf("\nE-mail: %s",atual->email);
-    	printf("\nSalario: %.2lf",atual->salario);
-    	printf("\n");
-        return atual; //quando o nó com o valor buscado é encontrado
-    }
-}
 
 Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
 {
@@ -606,14 +486,6 @@ Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
     }
     else
     {	
-    	/*printf("\nNODO ENCONTRADO\n");
-    	printf("\nNumero de matricula: %d",atual->matricula);
-    	printf("\nNome: %s",atual->nome);
-    	printf("\nSobrenome: %s",atual->sobrenome);
-    	printf("\nTelefone: %s",atual->telefone);
-    	printf("\nE-mail: %s",atual->email);
-    	printf("\nSalario: %.2lf",atual->salario);
-    	printf("\n");*/
         return atual; //quando o nó com o valor buscado é encontrado
     }
 }
@@ -642,8 +514,7 @@ void impressao_formato_arvore(Nodo *raiz, int espaco)
     {
         printf(" ");
     }
-    
-    //printf("\nImprimindo\n");
+
     printf("-Numero de matricula: %d\n", raiz->matricula);
     for (i = COUNT; i < espaco; i++)
     {
@@ -690,8 +561,6 @@ registro quebra_string(char *string_recebida)
 	
 	linha_arquivo.matricula = atoi(string_cortada); //a função atoi converte de string para inteiro
 	
-	//printf("Numero de Matricula: %d\n", linha_arquivo.matricula); //exibir primeira palavra da string cortada
-	
 	//o contador abaixo é responsável por indicar em qual coluna a quebra de string está sendo efetuada, para armazenar o resultado
 	//da quebra na variável correta
 	int contador_variaveis_alocacao = 1; //inciada com 1 pois a primeira coluna da linha foi quebrada
@@ -708,34 +577,25 @@ registro quebra_string(char *string_recebida)
 			if(contador_variaveis_alocacao==2) //Condição para colocar a string correta na variável nome
 			{
 				strcpy(linha_arquivo.nome,string_cortada); //função que copia o conteúdo da string cortada para a variável nome
-				//printf("Nome: %s\n", linha_arquivo.nome);
 			}
 			if(contador_variaveis_alocacao == 3) //Condição para colocar a string correta na variável sobrenome
 			{
 				strcpy(linha_arquivo.sobrenome,string_cortada); //função que copia o conteúdo da string cortada para a variável sobrenome
-				//printf("Sobrenome: %s\n", linha_arquivo.sobrenome);
 			}
 			if(contador_variaveis_alocacao == 4) //Condição para colocar a string correta na variável e-mail
 			{
-				strcpy(linha_arquivo.email,string_cortada); //função que copia o conteúdo da string cortada para a variável e-mail
-				//printf("E-mail: %s\n", linha_arquivo.email);	
+				strcpy(linha_arquivo.email,string_cortada); //função que copia o conteúdo da string cortada para a variável e-
 			}
 			if(contador_variaveis_alocacao == 5) //Condição para colocar a string correta na variável telefone
 			{
-				strcpy(linha_arquivo.telefone,string_cortada); //função que copia o conteúdo da string cortada para a variável telefone
-				//printf("Telefone: %s\n", linha_arquivo.telefone);
+				strcpy(linha_arquivo.telefone,string_cortada); //função que copia o conteúdo da string cortada para a variável tele
 			}
 			if(contador_variaveis_alocacao == 6) //Condição para colocar a string correta na variável salário
 			{
 				linha_arquivo.salario=strtod(string_cortada,NULL); //função que converte o conteúdo da string cortada para double e o armazena na variável salário
-				//printf("Salario: %.2lf\n", linha_arquivo.salario);
 			}
 		}
 	}
-
-	printf("\n");
-
-	//printf("\nfim das impressoes dentro da funcao quebra string\n");
 		
 	return linha_arquivo;
 }
