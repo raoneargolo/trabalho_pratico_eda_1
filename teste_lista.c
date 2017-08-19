@@ -5,7 +5,7 @@
 //Busca por matricula: OK
 //Busca por nome: OK
 //Remoção: OK
-//Inserção manual (busca e vê se não está na estrutura): 
+//Inserção manual: OK
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -279,9 +279,9 @@ registro quebra_string(char *string_recebida)
 int main ( void )
 {
    inicio = fim = NULL;
-
+	int matricula_busca;
    FILE *arquivo;
-
+	
    char linha_atual[tamanho_caracteres_linha];
 
    registro linha;
@@ -310,6 +310,50 @@ int main ( void )
         
    imprimeLista();
 
+
+	// INSERIR POR MATRICULA
+	
+	printf("Informe uma matricula para inserir na lista:\n");
+	scanf("%d",&matricula_busca);
+
+   if(busca_matricula(matricula_busca)!=NULL)
+   {
+      //raiz = deletar_avl(raiz,matricula_busca);
+      //printf("\n\t\tArvore AVL apos remocao\n");
+      //impressao_formato_arvore(raiz,0);
+      printf("\nNUMERO DE MATRICULA EM USO\n");
+   }
+   else
+   {
+      printf("\nMATRICULA LIBERADA PARA INSERCAO\n");
+      printf("\nInforme os dados:\n");
+      
+      linha.matricula=matricula_busca;
+      printf("Nome:");
+      scanf("%s",linha.nome);
+      
+      printf("Sobrenome:");
+	  scanf("%s",linha.sobrenome);
+      
+       printf("Email:");
+	  scanf("%s",linha.email);
+ 
+      
+       printf("Telefone:");
+	  scanf("%s",linha.telefone);
+
+      
+      printf("Salario:");
+	  scanf("%lf",&linha.salario);
+      
+      inserir(linha);
+		imprimeLista();
+      
+      
+   }
+	
+	
+	
    /*int matricula_busca;
 
    struct no *busca = (struct no*)malloc(sizeof(struct no));

@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 	FILE *arq;
 
 	char frase [1000];
-	char nome_arq[150];
+	char nome_arq[20];
 
 	printf("informe o nome do arquivo\n");
 	scanf("%s",nome_arq);
@@ -21,19 +21,13 @@ int main(int argc, char **argv)
 	//result = strcmp (nome_arq, "teste1");
 	
 	printf("Abrindo arquivo... \n\n");
-		arq=fopen("nome_arq","r");		// Leitura de arquivo
+		arq=fopen(nome_arq,"r");		// Leitura de arquivo
 		while (fgets(frase,1000,arq)!=NULL){
 			printf("%s",frase);
 		}
 	
 	/*if ( result== 0)
-	{
-		printf("Abrindo arquivo... \n\n");
-		arq=fopen("%s",nome_arq);		// Leitura de arquivo
-		while (fgets(frase,1000,arq)!=NULL){
-			printf("%s",frase);
-		}
-	}
+	
 	else
 	{					//Tratamento caso nao encontre o arquivo
 		printf("Arquivo nao encontrado");
