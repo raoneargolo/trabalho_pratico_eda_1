@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #define tamanho_caracteres 100
 #define tamanho_caracteres_linha 1000
 
@@ -44,6 +45,7 @@ struct no *fim;
 
 void inserir (registro linha)
 {
+	
    struct no *novo = MALLOC (struct no);
    
    struct no *atual;
@@ -100,7 +102,7 @@ void inserir (registro linha)
          novo->ant = NULL;
          atual->ant = novo;
          inicio = novo;
-                        
+                       
          return ;
       }
    }
@@ -118,12 +120,13 @@ void inserir (registro linha)
 */
 void imprimeLista (void)
 {
+	int cont=0;
    struct no *atual = inicio;
         
    while (atual)
    {
       printf("\n\n");
-
+	  printf("ELEMENTO : %d\n", cont);
       printf("Numero de Matricula: %d\n", atual->matricula);
       printf("Nome: %s\n", atual->nome);        
       printf("Sobrenome: %s\n", atual->sobrenome);
@@ -132,6 +135,7 @@ void imprimeLista (void)
       printf("Salario: %.2lf\n", atual->salario);
       
       atual = atual->prox;
+      cont++;
    }
    return ;
 }
@@ -180,6 +184,7 @@ struct no *busca_nome (char *nome)
          atual = atual->prox;
       }
    }
+   return atual;
 }
 
 /*
@@ -278,6 +283,9 @@ registro quebra_string(char *string_recebida)
 // main...
 int main ( void )
 {
+	float tempo;
+	time_t t_ini, t_fim;
+
    inicio = fim = NULL;
 	int matricula_busca;
    FILE *arquivo;
@@ -286,7 +294,7 @@ int main ( void )
 
    registro linha;
 
-   arquivo = fopen("teste1.csv","r");
+   arquivo = fopen("MOCK_DATA.csv","r");
 
    int qt_linhas_lidas = 0;
 
@@ -295,20 +303,28 @@ int main ( void )
       printf("\nArquivo nao encontrado\n");
       return 0;
    }
+// start = clock(); //inicio da contagem 
+ 
+ t_ini = time (NULL);
 
    while (fgets(linha_atual,tamanho_caracteres_linha,arquivo)!=NULL)
    {
       if(qt_linhas_lidas>1) //Assumind
       {
          linha = quebra_string(linha_atual); //função para "quebrar" string
-
          inserir(linha);
       }  
-      
       qt_linhas_lidas++;
    }
-        
+    
    imprimeLista();
+   printf("Quantidade de registros %d\n",qt_linhas_lidas);
+   t_fim = time (NULL);
+   
+   // CALCULO DO TEMPO
+   tempo = difftime (t_fim, t_ini);
+   printf("Tempo apos a insercao na lista: %.2f\n", tempo );
+
 
 
 	// INSERIR POR MATRICULA
@@ -335,21 +351,26 @@ int main ( void )
       printf("Sobrenome:");
 	  scanf("%s",linha.sobrenome);
       
-       printf("Email:");
+      printf("Email:");
 	  scanf("%s",linha.email);
- 
       
-       printf("Telefone:");
+      printf("Telefone:");
 	  scanf("%s",linha.telefone);
 
-      
       printf("Salario:");
 	  scanf("%lf",&linha.salario);
+	
+      t_ini = time (NULL);
       
       inserir(linha);
-		imprimeLista();
+
+      imprimeLista();
+
+      t_fim = time (NULL);
       
-      
+      // CALCULO DO TEMPO
+      tempo = difftime (t_fim, t_ini);
+	  printf("Tempo apos inserir novo registro: %.2f\n", tempo );
    }
 	
 	
