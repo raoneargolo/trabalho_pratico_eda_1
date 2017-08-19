@@ -1,9 +1,10 @@
-//Quebra de string: ok
-//Inserção no nó da árvore: ok
-//Impressão: ok
-//Remoção: ok (testar mais)
-//Busca por matricula: ok
+//Quebra de string: Ok
+//Inserção no nó da árvore: Ok
+//Impressão: Ok
+//Remoção: Ok (testar mais)
+//Busca por matricula: Ok
 //Busca por nome:
+//Inserção manual (busca e vê se não está na estrutura): 
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -131,6 +132,7 @@ int main() {
 
 	impressao_formato_arvore(raiz,0);
 
+	//Busca por matricula
 	/*int matricula_busca;
 
 	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
@@ -140,17 +142,21 @@ int main() {
 
 	busca_nodo_matricula(raiz,matricula_busca);*/
 
+
+	//Busca por nome
 	/*char nome_busca[tamanho_caracteres];
 	
 	printf("\nDigite um nome para busca: ");
 	fflush(stdin);
-	fgets(nome_busca,tamanho_caracteres,stdin);
+	scanf("%s",nome_busca);
 	
 	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
 
 	busca_nodo_nome(raiz,nome_busca);*/
 
-	int matricula_busca;
+
+	//Remoção por matrícula (busca e depois remove se encontrar)
+	/*int matricula_busca;
 
 	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
 
@@ -159,14 +165,17 @@ int main() {
 
 	if(busca_nodo_matricula(raiz,matricula_busca)!=NULL)
 	{
+		printf("\n\t\tO valor foi encontrado!")
 		raiz = deletar_avl(raiz,matricula_busca);
 		printf("\n\t\tArvore AVL apos remocao\n");
 		impressao_formato_arvore(raiz,0);
 	}
 	else
 	{
-		printf("\n\t\tVALOR NAO ENCONTRADO\n");
-	}
+		printf("\n\t\tO valor não foi encontrado\n");
+	}*/
+
+	
 
 	fclose(arquivo); //função para fechar o arquivo recebido e lido
 

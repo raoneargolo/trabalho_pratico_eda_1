@@ -4,7 +4,9 @@
 //Impressão: OK
 //Busca por matricula: OK
 //Busca por nome: OK
-//Remoção: 
+//Remoção: OK
+//Inserção manual (busca e vê se não está na estrutura): 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -345,7 +347,7 @@ int main ( void )
       printf("\nDESGRACA! NAO ACHEI\n");
    }*/
 
-   int matricula_busca;
+   /*int matricula_busca;
 
    struct no *busca = (struct no*)malloc(sizeof(struct no));
 
@@ -362,7 +364,7 @@ int main ( void )
       printf("\n\t\tVALOR NAO ENCONTRADO\n");
    }
 
-   imprimeLista();
+   imprimeLista();*/
 
    fclose(arquivo);
 
