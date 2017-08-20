@@ -64,10 +64,11 @@ int main(int argc, char const *argv[])
  	int qt_linhas_lidas = 0;
 
 	printf(" \t\t\t ################## BEM VINDO ###################\n");
-	printf(" Digite o nome do arquivo a ser importado (com a extensao)\n");
+	printf("\nDigite o nome do arquivo a ser importado (com a extensao): ");
 	scanf("%s",nome_arq);
 
 	arquivo=fopen(nome_arq,"r");		// Leitura de arquivo
+	
 	while (arquivo== NULL)
 	{
 		printf("ERRO: Arquivo nao encontrado!\n");
@@ -75,7 +76,9 @@ int main(int argc, char const *argv[])
 		scanf("%s",nome_arq);
 		arquivo=fopen(nome_arq,"r");		// Leitura de arquivo
 	}
+	
 	printf("Abrindo arquivo... \n\n");
+	
 	while (fgets(linha_atual,tamanho_caracteres_linha,arquivo)!=NULL)
 	   {
 	      if(qt_linhas_lidas>1) //Assumind
