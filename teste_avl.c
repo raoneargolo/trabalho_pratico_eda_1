@@ -1,11 +1,3 @@
-//Quebra de string: Ok
-//Inserção no nó da árvore: Ok
-//Impressão: Ok
-//Remoção: Ok
-//Busca por matricula: Ok
-//Busca por nome: OK
-//Inserção manual (busca e vê se não está na estrutura): Ok
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -175,8 +167,6 @@ int main() {
 			{
 				printf("\nNome nao encontrado!\n");
 			}
-
-			printf("Achou ? => %s\n", resultado_busca ? "sim" : "nao");
 			
 			tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
 			
@@ -243,7 +233,7 @@ int main() {
 			}
 			else
 			{
-				printf("\nMatricula bloqueada. Ja existe\n");
+				printf("\nMatricula bloqueada. Ja existe um usuario cadastrado\n");
 			}
 
 			tempo_fim = clock();
