@@ -361,7 +361,6 @@ Nodo* deletar_avl(Nodo *raiz, int matricula)
  
     if (raiz == NULL)
     {
-        printf("\n\t\t\tValor nao encontrado!\n");
         return raiz;
     }
  
@@ -463,7 +462,6 @@ int busca_nodo_nome(Nodo *atual, char *nome)
 {
     if(atual == NULL)
     {
-    	//printf("\n\t\tNao existe matricula com o nome pesquisado\n");
     	return 0;
     }
     else
@@ -487,35 +485,6 @@ int busca_nodo_nome(Nodo *atual, char *nome)
     }
 	return 0;
 }// fim da função busca por nome
-
-/*int erd (Nodo *atual, char *nome)
-{
-	int comparador;
-    if (atual != NULL)
-    {
-    	comparador = strcmp(atual->nome,nome);
-    	if(comparador == 0)
-    	{
-    		printf("\nACHEI 1\n");
-    		return 0;
-    	}
-       	erd (atual->esquerda,nome);
-       	comparador = strcmp(atual->nome,nome);
-    	if(comparador == 0)
-    	{
-    		printf("\nACHEI 2\n");
-    		return 0;
-    	}
-       	printf ("%s\n", atual->nome);
-       	erd (atual->direita,nome); 
-       	comparador = strcmp(atual->nome,nome);
-    	if(comparador == 0)
-    	{
-    		printf("\nACHEI 3\n");
-    		return 0;
-    	}
-    }
-}*/
 
 Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
 {
