@@ -61,15 +61,28 @@ int main() {
 	Nodo *raiz = NULL;
 	
     registro *linha;
-	
-    arquivo = fopen("MOCK_DATA.csv","r"); //Procedimento para leitura do arquivo csv
+
+    //time_t tempo_inicio, tempo_fim;
+    clock_t tempo_inicio, tempo_fim;
+
+    long double tempo_duracao;
+
+    char nome_arquivo[tamanho_caracteres];
+
+    printf("\nDigite o nome do arquivo (com a extensao): ");
+	scanf("%s",nome_arquivo);
+
+    arquivo = fopen(nome_arquivo,"r"); //Procedimento para leitura do arquivo csv
 	
 	if (arquivo == NULL) //Caso o arquivo não seja encontrado
 	{
 		printf("\nArquivo nao encontrado\n");
 		return 0;
 	}
-	
+
+	//tempo_inicio = time(NULL);
+	tempo_inicio = clock();
+
 	int qt_linhas_lidas = 0; //variável para o controle do número de linhas dentro do arquivo csv
 	
 	//o loop abaixo tem como função ler cada linha do arquivo csv inserido (lê o arquivo csv até o seu final)
@@ -90,107 +103,204 @@ int main() {
 		qt_linhas_lidas++;
 	}
 
+	//impressao_formato_arvore(raiz,0);
+
+	//tempo_fim = time(NULL);
+	tempo_fim = clock();
+
+	//tempo_duracao = difftime(tempo_fim,tempo_inicio);
+	tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+
+	//printf("\nMomento de inicio: %f (s) \n",((double)tempo_inicio/CLOCKS_PER_SEC));// exibe o momento do inicio t=0
+    //printf("\nMomento de fim: %f (s) \n",((double)tempo_fim/CLOCKS_PER_SEC)); //exibe o hora final
+    printf("\nTempo da importacao e insercao dos registros: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
+
+	//printf("\nTempo de duracao da insercao e importacao: %.10Lf\n", tempo_duracao);
 	fclose(arquivo); //função para fechar o arquivo recebido e lido
 
-	impressao_formato_arvore(raiz,0);
+	//impressao_formato_arvore(raiz,0);
 
-	//Busca por matricula
-	/*int matricula_busca;
-
-	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
-
-	printf("\nDigite um numero de matricula para busca: ");
-	scanf("%d",&matricula_busca);
-
-	while(matricula_busca != -1)
-	{
-		busca_nodo_matricula(raiz,matricula_busca);
-		printf("\nDigite um numero de matricula para busca: ");
-		scanf("%d",&matricula_busca);
-	}*/
-
-	//Busca por nome
-	/*char nome_busca[tamanho_caracteres];
+	printf("\n\t\tOpcoes disponiveis\n");
+	printf("\n1-Busca por numero de matricula");
+	printf("\n2-Busca por nome");
+	printf("\n3-Imprimir arvore");
+	printf("\n4-Insercao manual");
+	printf("\n5-Remover um registro pelo numero de matricula");
+	printf("\n6-Sair");
 	
-	printf("\nDigite um nome para busca: ");
-	fflush(stdin);
-	scanf("%s",nome_busca);
+	printf("\n\nDigite a opcao desejada: ");
+	int opcao;
+	scanf("%d",&opcao);
 
-	int achou = busca_nodo_nome(raiz,nome_busca);
-	printf("Achou ? => %s\n", achou ? "sim" : "nao");*/
-
-	//Remoção por matrícula (busca e depois remove se encontrar)
-	/*int matricula_busca;
-
-	Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
-
-	printf("\nDigite um numero de matricula para busca e posterior remocao: ");
-	scanf("%d",&matricula_busca);
-
-	while(matricula_busca != -1)
+	while(opcao!=6)
 	{
-		if(busca_nodo_matricula(raiz,matricula_busca)!=NULL)
+		if(opcao == 1)
 		{
-			printf("\n\t\tO valor foi encontrado!");
-			raiz = deletar_avl(raiz,matricula_busca);
-			printf("\n\t\tArvore AVL apos remocao\n");
+			
+			int matricula_busca;
 
+			Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
+
+			printf("\nDigite um numero de matricula para busca: ");
+			scanf("%d",&matricula_busca);
+			
+			tempo_inicio = clock();
+
+			busca_nodo_matricula(raiz,matricula_busca);
+			
+			tempo_fim = clock();
+			
+			tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+			
+			printf("\nTempo da busca por matricula: %Lf (s) \n",tempo_duracao);
+		}
+		else if(opcao == 2)
+		{
+			char nome_busca[tamanho_caracteres];
+	
+			printf("\nDigite um nome para busca: ");
+			fflush(stdin);
+			scanf("%s",nome_busca);
+
+			tempo_inicio = clock();
+			
+			int resultado_busca = busca_nodo_nome(raiz,nome_busca);
+			
+			tempo_fim = clock();
+			if(resultado_busca == 1)
+			{	
+				printf("\nNome encontrado!\n");
+			}
+			else
+			{
+				printf("\nNome nao encontrado!\n");
+			}
+
+			printf("Achou ? => %s\n", resultado_busca ? "sim" : "nao");
+			
+			tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+			
+			printf("\nTempo da busca por nome: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
+		}
+		else if(opcao == 3)
+		{
+			tempo_inicio = clock();
+			
 			impressao_formato_arvore(raiz,0);
+			
+			tempo_fim = clock();
+			
+			tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+			
+			printf("\nTempo da exibicao dos registros: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 		}
-		else
+		else if(opcao == 4)
 		{
-			printf("\n\t\tO valor não foi encontrado\n");
+
+			int matricula_busca;
+			printf("\nDigite uma matricula para inserir: ");
+			scanf(" %d",&matricula_busca);
+
+			registro *insercao_manual = malloc(sizeof(registro));
+			
+			tempo_inicio = clock();
+			
+			if(busca_nodo_matricula(raiz,matricula_busca) == NULL)
+			{
+				printf("\nMatricula liberada. Insira os dados");
+				insercao_manual->matricula = matricula_busca;
+
+				printf("\nNome: ");
+				char nome[tamanho_caracteres];
+				scanf("%s",nome);
+				strcpy(insercao_manual->nome,nome);
+
+				printf("\nSobrenome: ");
+				char sobrenome[tamanho_caracteres];
+				scanf("%s",sobrenome);
+				strcpy(insercao_manual->sobrenome,sobrenome);
+
+				printf("\nE-mail: ");
+				char email[tamanho_caracteres];
+				scanf("%s",email);
+				strcpy(insercao_manual->email,email);
+
+				printf("\nTelefone(sem espacos *troque os espacos por tracos ou parenteses*): ");
+				char telefone[tamanho_caracteres];
+				scanf("%s",telefone);
+				strcpy(insercao_manual->telefone,telefone);
+
+				printf("\nSalario: ");
+				double salario;
+				scanf("%lf",&salario);
+				insercao_manual->salario=salario;
+
+
+				raiz = inserir_avl(raiz,insercao_manual);
+
+				printf("\nResultado da arvore apos insercao manual\n");
+				impressao_formato_arvore(raiz,0);
+			}
+			else
+			{
+				printf("\nMatricula bloqueada. Ja existe\n");
+			}
+
+			tempo_fim = clock();
+				
+			tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+				
+			printf("\nTempo da busca e insercao manual do registro: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
+		}
+		else if(opcao == 5)
+		{
+
+			int matricula_busca;
+
+			printf("\nDigite um numero de matricula para busca e posterior remocao: ");
+			scanf("%d",&matricula_busca);
+
+			
+			if(busca_nodo_matricula(raiz,matricula_busca)!=NULL)
+			{
+				printf("\n\t\tO valor foi encontrado e removido!");
+				
+				tempo_inicio = clock();
+
+				raiz = deletar_avl(raiz,matricula_busca);
+				
+				tempo_fim = clock();
+				
+				printf("\nDeseja imprimir a arvore? Digite 1 para SIM e 2 para NAO: ");
+				int opcao_2;
+				scanf("%d",&opcao_2);
+
+				if(opcao_2 == 1)
+				{
+					printf("\n\t\tArvore AVL apos remocao\n");
+					impressao_formato_arvore(raiz,0);
+				}
+			}
+			else
+			{
+				printf("\n\t\tO valor não foi encontrado\n");
+			}
+
+				
+			tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+				
+			printf("\nTempo da importacao e insercao dos registros: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 		}
 
-		printf("\nDigite um numero de matricula para busca e posterior remocao: ");
-		scanf("%d",&matricula_busca);
-	}*/
-
-	int matricula_busca;
-	printf("\nDigite uma matricula para inserir: ");
-	scanf(" %d",&matricula_busca);
-
-	registro *insercao_manual = malloc(sizeof(registro));
-	
-	if(busca_nodo_matricula(raiz,matricula_busca) == NULL)
-	{
-		printf("\nMatricula liberada");
-		insercao_manual->matricula = matricula_busca;
-
-		printf("\nNome: ");
-		char nome[tamanho_caracteres];
-		scanf("%s",nome);
-		strcpy(insercao_manual->nome,nome);
-
-		printf("\nSobrenome: ");
-		char sobrenome[tamanho_caracteres];
-		scanf("%s",sobrenome);
-		strcpy(insercao_manual->sobrenome,sobrenome);
-
-		printf("\nE-mail: ");
-		char email[tamanho_caracteres];
-		scanf("%s",email);
-		strcpy(insercao_manual->email,email);
-
-		printf("\nTelefone: ");
-		char telefone[tamanho_caracteres];
-		scanf("%s",telefone);
-		strcpy(insercao_manual->telefone,telefone);
-
-		printf("\nSalario: ");
-		double salario;
-		scanf("%lf",&salario);
-		insercao_manual->salario=salario;
-
-
-		raiz = inserir_avl(raiz,insercao_manual);
-
-		impressao_formato_arvore(raiz,0);
-
-	}
-	else
-	{
-		printf("\nMatricula bloqueada. Ja existe\n");
+		printf("\n\t\tOpcoes disponiveis\n");
+		printf("\n1-Busca por numero de matricula");
+		printf("\n2-Busca por nome");
+		printf("\n3-Imprimir arvore");
+		printf("\n4-Insercao manual");
+		printf("\n5-Remover um registro pelo numero de matricula");
+		printf("\n6-Sair");
+		printf("\n\nDigite a opcao desejada: ");
+		scanf("%d",&opcao);
 	}
 
 	return 0;
@@ -473,12 +583,16 @@ int busca_nodo_nome(Nodo *atual, char *nome)
     	}
 
     	int ta_na_esquerda = busca_nodo_nome(atual->esquerda,nome); 
-    	if(ta_na_esquerda){
+    	
+    	if(ta_na_esquerda)
+    	{
     		return 1;
     	}
-    	else{
+    	else
+    	{
     		int ta_na_direita = busca_nodo_nome(atual->direita,nome);
-    		if(ta_na_direita){
+    		if(ta_na_direita)
+    		{
     			return 1;
     		}
     	}
