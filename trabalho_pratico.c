@@ -1,3 +1,8 @@
+/*Equipe composta por:
+	1-Acacia Juriti
+	2-Eric Sampaio
+	3-Raone Argolo
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
