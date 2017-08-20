@@ -126,7 +126,7 @@ void imprimeLista (void)
    while (atual)
    {
       printf("\n\n");
-	  printf("ELEMENTO : %d\n", cont);
+      printf("ELEMENTO : %d\n", cont);
       printf("Numero de Matricula: %d\n", atual->matricula);
       printf("Nome: %s\n", atual->nome);        
       printf("Sobrenome: %s\n", atual->sobrenome);
@@ -303,9 +303,10 @@ int main ( void )
       printf("\nArquivo nao encontrado\n");
       return 0;
    }
+
 // start = clock(); //inicio da contagem 
  
- t_ini = time (NULL);
+   t_ini = time (NULL);
 
    while (fgets(linha_atual,tamanho_caracteres_linha,arquivo)!=NULL)
    {
@@ -324,112 +325,6 @@ int main ( void )
    // CALCULO DO TEMPO
    tempo = difftime (t_fim, t_ini);
    printf("Tempo apos a insercao na lista: %.2f\n", tempo );
-
-
-
-	// INSERIR POR MATRICULA
-	
-	printf("Informe uma matricula para inserir na lista:\n");
-	scanf("%d",&matricula_busca);
-
-   if(busca_matricula(matricula_busca)!=NULL)
-   {
-      //raiz = deletar_avl(raiz,matricula_busca);
-      //printf("\n\t\tArvore AVL apos remocao\n");
-      //impressao_formato_arvore(raiz,0);
-      printf("\nNUMERO DE MATRICULA EM USO\n");
-   }
-   else
-   {
-      printf("\nMATRICULA LIBERADA PARA INSERCAO\n");
-      printf("\nInforme os dados:\n");
-      
-      linha.matricula=matricula_busca;
-      printf("Nome:");
-      scanf("%s",linha.nome);
-      
-      printf("Sobrenome:");
-	  scanf("%s",linha.sobrenome);
-      
-      printf("Email:");
-	  scanf("%s",linha.email);
-      
-      printf("Telefone:");
-	  scanf("%s",linha.telefone);
-
-      printf("Salario:");
-	  scanf("%lf",&linha.salario);
-	
-      t_ini = time (NULL);
-      
-      inserir(linha);
-
-      imprimeLista();
-
-      t_fim = time (NULL);
-      
-      // CALCULO DO TEMPO
-      tempo = difftime (t_fim, t_ini);
-	  printf("Tempo apos inserir novo registro: %.2f\n", tempo );
-   }
-	
-	
-	
-   /*int matricula_busca;
-
-   struct no *busca = (struct no*)malloc(sizeof(struct no));
-
-   printf("\nDigite um numero de matricula para busca e posterior remocao: ");
-   scanf("%d",&matricula_busca);
-
-   if(busca_matricula(matricula_busca)!=NULL)
-   {
-      //raiz = deletar_avl(raiz,matricula_busca);
-      //printf("\n\t\tArvore AVL apos remocao\n");
-      //impressao_formato_arvore(raiz,0);
-      printf("\n\t\tACHEI\n");
-   }
-   else
-   {
-      printf("\n\t\tVALOR NAO ENCONTRADO\n");
-   }*/
-
-   /*char nome_busca[tamanho_caracteres];
-   
-   printf("\nDigite um nome para busca: ");
-   fflush(stdin);
-   //fgets(nome_busca,tamanho_caracteres,stdin);
-   scanf("%s",nome_busca);
-
-   //struct no *busca = (struct no*)malloc(sizeof(struct no));
-
-   if(busca_nome(nome_busca)!=NULL)
-   {
-      printf("\nDESGRACA! ACHEI\n");
-   }
-   else
-   {
-      printf("\nDESGRACA! NAO ACHEI\n");
-   }*/
-
-   /*int matricula_busca;
-
-   struct no *busca = (struct no*)malloc(sizeof(struct no));
-
-   printf("\nDigite um numero de matricula para busca e posterior remocao: ");
-   scanf("%d",&matricula_busca);
-
-   if(busca_matricula(matricula_busca)!=NULL)
-   {
-      printf("\n\t\tVALOR ENCONTRADO\n");
-      remover(busca_matricula(matricula_busca));
-   }
-   else
-   {
-      printf("\n\t\tVALOR NAO ENCONTRADO\n");
-   }
-
-   imprimeLista();*/
 
    fclose(arquivo);
 
