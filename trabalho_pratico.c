@@ -86,6 +86,7 @@ int main() {
 
 	char nome_arquivo[tamanho_caracteres];
 	char linha_atual[tamanho_caracteres_linha];
+	char linha_atual_avl[tamanho_caracteres_linha];
 	
 	Nodo *raiz = NULL;
 	
@@ -127,6 +128,8 @@ int main() {
       	qt_linhas_lidas++;
    	}
 
+   	fclose(arquivo); //função para fechar o arquivo recebido e lido
+
    	tempo_fim = clock();
 
    	tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
@@ -138,28 +141,30 @@ int main() {
 
    	tempo_inicio = clock();
 
+   	arquivo = fopen(nome_arquivo,"r"); //Procedimento para leitura do arquivo csv
+   	
    	//o loop abaixo tem como função ler cada linha do arquivo csv inserido (lê o arquivo csv até o seu final)
 	//e partir da terceira linha lida (a primeira linha contém o número de registros dentro do arquivo e a segunda
 	//o tipo de cada coluna) executar a quebra da linha em strings úteis para a aplicação
-   	while (fgets(linha_atual,tamanho_caracteres_linha,arquivo)!=NULL)
+   	while (fgets(linha_atual_avl,tamanho_caracteres_linha,arquivo)!=NULL)
 	{
 		if(qt_linhas_lidas>1) //Assumind
 		{
-			linha_avl = quebra_string_avl(linha_atual); //função para "quebrar" string
+			linha_avl = quebra_string_avl(linha_atual_avl); //função para "quebrar" string
 
 			raiz = inserir_avl(raiz, linha_avl);
 		}
 		
 		qt_linhas_lidas++;
 	}
+
+	fclose(arquivo); //função para fechar o arquivo recebido e lido
 	
 	tempo_fim = clock();
 
    	tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
 
    	printf("\nTempo da importacao e insercao dos registros na árvore AVL: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
-
-	fclose(arquivo); //função para fechar o arquivo recebido e lido
 
 	printf("\n\n\n\t\t\t   ################## MENU ###################\n");
 	printf("\n\t\t\t\t     ESCOLHA UMA DAS OPCOES\n");
@@ -223,11 +228,11 @@ int main() {
 					tempo_fim = clock();
 					if(resultado_busca == 1)
 					{	
-						printf("\nNome encontrado!\n");
+						printf("\n\t\tNOME ENCONTRADO!\n");
 					}
 					else
 					{
-						printf("\nNome nao encontrado!\n");
+						printf("\n\t\tNOME NAO ENCONTRADO!\n");
 					}
 					
 					tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
@@ -259,7 +264,7 @@ int main() {
 					
 					if(busca_nodo_matricula(raiz,matricula_busca) == NULL)
 					{
-						printf("\nMatricula liberada. Insira os dados");
+						printf("\nMATRICULA LIBERADA. INSIRA OS DADOS");
 						insercao_manual->matricula = matricula_busca;
 
 						printf("\nNome: ");
@@ -287,15 +292,21 @@ int main() {
 						scanf("%lf",&salario);
 						insercao_manual->salario=salario;
 
-
 						raiz = inserir_avl(raiz,insercao_manual);
 
-						printf("\nResultado da arvore apos insercao manual\n");
-						impressao_formato_arvore(raiz,0);
+						printf("\nDeseja imprimir a arvore? Digite 1 para SIM e 2 para NAO: ");
+						int opcao_2;
+						scanf("%d",&opcao_2);
+
+						if(opcao_2 == 1)
+						{
+							printf("\n\t\tArvore AVL apos insercao manual\n");
+							impressao_formato_arvore(raiz,0);
+						}
 					}
 					else
 					{
-						printf("\nMatricula bloqueada. Ja existe um usuario cadastrado\n");
+						printf("\n\t\tMATRICULA BLOQUEADA. JA EXISTE USUARIO CADASTRADO\n");
 					}
 
 					tempo_fim = clock();
@@ -314,16 +325,14 @@ int main() {
 
 					
 					if(busca_nodo_matricula(raiz,matricula_busca)!=NULL)
-					{
-						printf("\n\t\tO valor foi encontrado e removido!");
-						
+					{	
 						tempo_inicio = clock();
 
 						raiz = deletar_avl(raiz,matricula_busca);
 						
 						tempo_fim = clock();
 						
-						printf("\nDeseja imprimir a arvore? Digite 1 para SIM e 2 para NAO: ");
+						printf("\nRegistro removido! Deseja imprimir a arvore? Digite 1 para SIM e 2 para NAO: ");
 						int opcao_2;
 						scanf("%d",&opcao_2);
 
@@ -333,15 +342,10 @@ int main() {
 							impressao_formato_arvore(raiz,0);
 						}
 					}
-					else
-					{
-						printf("\n\t\tO valor não foi encontrado\n");
-					}
-
-						
+	
 					tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
 						
-					printf("\nTempo da importacao e insercao dos registros: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
+					printf("\nTempo da busca e remocao dos registros: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 				}
 				else
 				{
@@ -556,7 +560,7 @@ int main() {
 		scanf ("%d",&tipo_estrutura);
 	}
 
-	printf("\n\n\t\t\t################## VALEU GALDIR! ###################\n");
+	printf("\n\n\t    ################## QUE A FORCA ESTEJA COM VOCE! ###################\n");
 	printf("\n\t\t\t\t\t   versao 10.2.8\n");
 
 	return 0;
@@ -1082,7 +1086,6 @@ int busca_nodo_nome(Nodo *atual, char *nome)
     {
     	if(strcmp(atual->nome,nome) == 0)
     	{
-    		printf("%s\n",atual->nome);
     		return 1;
     	}
 
@@ -1108,7 +1111,7 @@ Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
 {
     if(atual == NULL) //se a árvore estiver vazia ou o valor não for encontrado
     {
-    	printf("\n\tNODO NAO ENCONTRADO\n");
+    	//printf("\n\tNODO NAO ENCONTRADO\n");
         return NULL;
     }
     else if(matricula < atual->matricula) //quando o valor buscado é menor que o valor presente no nó atual
@@ -1121,18 +1124,16 @@ Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
     }
     else
     {	
-    	printf("\n\t\tNODO ENCONTRADO\n");
+    	//printf("\n\t\t\tNODO ENCONTRADO\n");
         return atual; //quando o nó com o valor buscado é encontrado
     }
 }
 
 void impressao_formato_arvore(Nodo *raiz, int espaco)
 {
-	printf("\noi\n");
     // Caso base
     if (raiz == NULL)
     {
-    	printf("\nraiz nula\n");
         return;
     }
  
@@ -1188,7 +1189,6 @@ void impressao_formato_arvore(Nodo *raiz, int espaco)
 //para cada string gerada pela quebra, a mesma ocupa uma variável e faz procedimentos diferentes
 registro* quebra_string_avl(char *string_recebida)
 {
-
 	registro *linha_arquivo = malloc(sizeof(registro));
 
 	char *string_recebida_copia = strdup(string_recebida); //duplicando para uma string temporária a string recebida na função
