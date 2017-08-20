@@ -1,8 +1,7 @@
-
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#define ITEMS 1000
+#define ITEMS 10000000
 
 int main(int argc, char **argv)
 {
@@ -18,7 +17,7 @@ int main(int argc, char **argv)
         item = rand() % 100;
         printf( "%d,", item );
     }
-	 end = clock(); // final da contagem
+	end = clock(); // final da contagem
 
 
 	// CALCULO DO TEMPO
