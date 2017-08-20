@@ -38,7 +38,7 @@ struct no
    struct no *ant;
 };
 
-// ponteiros de referência para lista duplamente encadeada
+//Ponteiros de referência para lista duplamente encadeada
 struct no *inicio;
 struct no *fim;
 
@@ -53,12 +53,12 @@ typedef struct registro
 	double salario;
 }registro;
 
+
 // Protótipos de função da lista duplamente encadeada
 void inserir (registro linha); 
 void imprimeLista (void);
 struct no *busca_matricula (int matricula);
 struct no *busca_nome (char *nome);
-//void remover ( struct no *dado );
 struct no *remover(int matricula);
 registro quebra_string_lista(char *string_recebida);
 
@@ -79,29 +79,29 @@ registro* quebra_string_avl(char *string_recebida);
 
 int main() {
 
-	FILE *arquivo;
+	FILE *arquivo; //arquivo do tipo FILE para receber o arquivo de importação
 
-	clock_t tempo_inicio, tempo_fim;
-	long double tempo_duracao;
+	clock_t tempo_inicio, tempo_fim; //variáveis para contar o tempo de execução de trechos do código
+	long double tempo_duracao; //variável para cronometar o tempo de duração da execução de um trecho do código
 
-	char nome_arquivo[tamanho_caracteres];
-	char linha_atual[tamanho_caracteres_linha];
-	char linha_atual_avl[tamanho_caracteres_linha];
+	char nome_arquivo[tamanho_caracteres]; //variável para ler o nome do arquivo a ser importado
+	char linha_atual[tamanho_caracteres_linha]; //variável para ler linha do arquivo importado e inserir na lista
+	char linha_atual_avl[tamanho_caracteres_linha]; //variável para ler linha do arquivo importado e inserir na arvore
 	
-	Nodo *raiz = NULL;
+	Nodo *raiz = NULL; //nodo raiz para arvore avl
 	
-    registro *linha_avl;
-    registro linha_lista;
+    registro *linha_avl; //struct para conter um registro e inserir na arvore avl
+    registro linha_lista; //struct para conter um registro e inserir na lista
 
-    inicio = fim = NULL;
+    inicio = fim = NULL; //inicializando o ponteiro de inicio e fim da lista
 
-    int qt_linhas_lidas = 0;
-    int tipo_estrutura;
-    int opcao_funcao;
+    int qt_linhas_lidas; //variável de controle da quantidade de linhas lidas do arquivo
+    int tipo_estrutura; //variável de escolha do tipo de estrutura (avl ou lista) para manipulação
+    int opcao_funcao; //variável de escolha das funções de manipulação
 
     printf("\n\t\t\t################## BEM VINDO ###################\n");
 	printf("\nDigite o nome do arquivo a ser importado (com a extensao): ");
-	scanf("%s",nome_arquivo);
+	scanf("%s",nome_arquivo); //lendo nome do arquivo para importação
 
 	arquivo = fopen(nome_arquivo,"r"); //Procedimento para leitura do arquivo csv
 
@@ -113,58 +113,64 @@ int main() {
 		arquivo=fopen(nome_arquivo,"r");
 	}
 
-	printf("\n\t\t\t\t\tAbrindo arquivo... \n\n");
+	printf("\n\t\t\t\tArquivo encontrado! Abrindo arquivo... \n\n");
 
-	tempo_inicio = clock();
 
-	while (fgets(linha_atual,tamanho_caracteres_linha,arquivo)!=NULL)
+	//Importação do arquivo e inserção na lista duplamente encadeada
+	
+	qt_linhas_lidas = 0;
+
+	tempo_inicio = clock(); //Iniciando contagem de tempo de execução
+
+	while (fgets(linha_atual,tamanho_caracteres_linha,arquivo)!=NULL) //O loop é executado até o final do arquivo
    	{
-    	if(qt_linhas_lidas>1) //Assumind
+    	if(qt_linhas_lidas>1) //Assumindo que as duas primeiras linhas do arquivo contem a quantidade de registros e os nomes das colunas
       	{
 		    linha_lista = quebra_string_lista(linha_atual); //função para "quebrar" string
-		    inserir(linha_lista);
+		    inserir(linha_lista); //Função para inserir o registro devidamente organizado na lista duplamente encadeada
       	}  
       	
       	qt_linhas_lidas++;
    	}
 
-   	fclose(arquivo); //função para fechar o arquivo recebido e lido
+   	fclose(arquivo); //Função para fechar o arquivo importado
 
-   	tempo_fim = clock();
+   	tempo_fim = clock(); //Finalizando contagem de tempo de execução
 
-   	tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+   	tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC; //calculando a diferença de tempo entre o início e o fim da execução
 
    	printf("\nTempo da importacao e insercao dos registros na lista duplamente encadeada: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 
-   	
+
+   	//Importação do arquivo e inserção na árvore AVL
+
    	qt_linhas_lidas = 0;
 
-   	tempo_inicio = clock();
+   	tempo_inicio = clock(); //Iniciando contagem de tempo de execução
 
    	arquivo = fopen(nome_arquivo,"r"); //Procedimento para leitura do arquivo csv
    	
-   	//o loop abaixo tem como função ler cada linha do arquivo csv inserido (lê o arquivo csv até o seu final)
-	//e partir da terceira linha lida (a primeira linha contém o número de registros dentro do arquivo e a segunda
-	//o tipo de cada coluna) executar a quebra da linha em strings úteis para a aplicação
-   	while (fgets(linha_atual_avl,tamanho_caracteres_linha,arquivo)!=NULL)
+   	while (fgets(linha_atual_avl,tamanho_caracteres_linha,arquivo)!=NULL) //O loop é executado até o final do arquivo
 	{
 		if(qt_linhas_lidas>1) //Assumind
 		{
 			linha_avl = quebra_string_avl(linha_atual_avl); //função para "quebrar" string
 
-			raiz = inserir_avl(raiz, linha_avl);
+			raiz = inserir_avl(raiz, linha_avl); //Assumindo que as duas primeiras linhas do arquivo contem a quantidade de registros e os nomes das colunas
 		}
 		
-		qt_linhas_lidas++;
+		qt_linhas_lidas++; //Função para inserir o registro devidamente organizado na lista duplamente encadeada
 	}
 
 	fclose(arquivo); //função para fechar o arquivo recebido e lido
 	
-	tempo_fim = clock();
+	tempo_fim = clock(); //Finalizando contagem de tempo de execução
 
-   	tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC;
+   	tempo_duracao = ((long double) (tempo_fim - tempo_inicio)) / CLOCKS_PER_SEC; //calculando a diferença de tempo entre o início e o fim da execução
 
    	printf("\nTempo da importacao e insercao dos registros na árvore AVL: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
+
+   	//Inicio do menu de opções de manipulação das estruturas
 
 	printf("\n\n\n\t\t\t   ################## MENU ###################\n");
 	printf("\n\t\t\t\t     ESCOLHA UMA DAS OPCOES\n");
@@ -174,9 +180,9 @@ int main() {
 	printf("\n\nDigite a opcao desejada: ");
 	scanf ("%d",&tipo_estrutura);
 
-	while((tipo_estrutura == 1) || (tipo_estrutura == 2))
+	while(tipo_estrutura != 3) //loop executa enquanto a escollha for avl (1) ou lista (2)
 	{
-		if(tipo_estrutura == 1)
+		if(tipo_estrutura == 1) //Árvore AVL
 		{
 			printf("\n\n\n\t\t\t################## ARVORE AVL ###################\n");
 			printf("\n\t\t\t\t     ESCOLHA UMA DAS OPCOES\n");
@@ -191,11 +197,10 @@ int main() {
 			int opcao;
 			scanf("%d",&opcao);
 
-			while(opcao!=6)
+			while(opcao!=6) //O loop executa até o usuário escolher sair da manipulação da árvore AVL
 			{
-				if(opcao == 1)
+				if(opcao == 1) //Busca por numero de matricula
 				{
-					
 					int matricula_busca;
 
 					Nodo *busca = (Nodo*)malloc(sizeof(Nodo));
@@ -205,7 +210,7 @@ int main() {
 					
 					tempo_inicio = clock();
 
-					busca_nodo_matricula(raiz,matricula_busca);
+					busca_nodo_matricula(raiz,matricula_busca); //função de busca
 					
 					tempo_fim = clock();
 					
@@ -213,7 +218,7 @@ int main() {
 					
 					printf("\nTempo da busca por matricula: %Lf (s) \n",tempo_duracao);
 				}
-				else if(opcao == 2)
+				else if(opcao == 2) //Busca por nome
 				{
 					char nome_busca[tamanho_caracteres];
 			
@@ -223,9 +228,10 @@ int main() {
 
 					tempo_inicio = clock();
 					
-					int resultado_busca = busca_nodo_nome(raiz,nome_busca);
+					int resultado_busca = busca_nodo_nome(raiz,nome_busca); //Retorna o resultado da busca por nome
 					
 					tempo_fim = clock();
+
 					if(resultado_busca == 1)
 					{	
 						printf("\n\t\tNOME ENCONTRADO!\n");
@@ -239,11 +245,11 @@ int main() {
 					
 					printf("\nTempo da busca por nome: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 				}
-				else if(opcao == 3)
+				else if(opcao == 3) //Imprimir árvore
 				{
 					tempo_inicio = clock();
 					
-					impressao_formato_arvore(raiz,0);
+					impressao_formato_arvore(raiz,0); //Funçao de impressão da árvore AVL
 					
 					tempo_fim = clock();
 					
@@ -251,20 +257,20 @@ int main() {
 					
 					printf("\nTempo da exibicao dos registros: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 				}
-				else if(opcao == 4)
+				else if(opcao == 4) //Inserção manual
 				{
 
 					int matricula_busca;
 					printf("\nDigite uma matricula para inserir: ");
 					scanf(" %d",&matricula_busca);
 
-					registro *insercao_manual = malloc(sizeof(registro));
+					registro *insercao_manual = malloc(sizeof(registro)); //criando e alocando uma struct para conter o registro e inserí-lo na árvore
 					
 					tempo_inicio = clock();
 					
-					if(busca_nodo_matricula(raiz,matricula_busca) == NULL)
+					if(busca_nodo_matricula(raiz,matricula_busca) == NULL) //Função de busca retorna NULL se não houver registros com o mesmo número de matrícula e instrui o usuário a inserir os dados do mesmo
 					{
-						printf("\nMATRICULA LIBERADA. INSIRA OS DADOS");
+						printf("\nMATRICULA LIBERADA. INSIRA OS DADOS\n");
 						insercao_manual->matricula = matricula_busca;
 
 						printf("\nNome: ");
@@ -292,7 +298,7 @@ int main() {
 						scanf("%lf",&salario);
 						insercao_manual->salario=salario;
 
-						raiz = inserir_avl(raiz,insercao_manual);
+						raiz = inserir_avl(raiz,insercao_manual); //Função de inserção na árvore AVL
 
 						printf("\nDeseja imprimir a arvore? Digite 1 para SIM e 2 para NAO: ");
 						int opcao_2;
@@ -315,20 +321,18 @@ int main() {
 						
 					printf("\nTempo da busca e insercao manual do registro: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 				}
-				else if(opcao == 5)
+				else if(opcao == 5) //Remoção de registro pelo numero de matricula
 				{
-
 					int matricula_busca;
 
 					printf("\nDigite um numero de matricula para busca e posterior remocao: ");
 					scanf("%d",&matricula_busca);
-
 					
-					if(busca_nodo_matricula(raiz,matricula_busca)!=NULL)
+					if(busca_nodo_matricula(raiz,matricula_busca)!=NULL) //Função de busca por matrícula. Se a matrícula for encontrada, proceder remoção
 					{	
 						tempo_inicio = clock();
 
-						raiz = deletar_avl(raiz,matricula_busca);
+						raiz = deletar_avl(raiz,matricula_busca); //Função de remoção do registro pelo numero de matrícula
 						
 						tempo_fim = clock();
 						
@@ -347,7 +351,7 @@ int main() {
 						
 					printf("\nTempo da busca e remocao dos registros: %Lf (s) \n",tempo_duracao); // exibe a diferenca do (inicio - final )
 				}
-				else
+				else //Caso a opção desejada seja inválida
 				{
 					printf("\n\t\t\tOPCAO INVALIDA\n");
 				}
@@ -364,7 +368,7 @@ int main() {
 				scanf("%d",&opcao);
 			}
 		}
-		else if(tipo_estrutura == 2)
+		else if(tipo_estrutura == 2) //Lista duplamente encadeada
 		{
 			printf("\n\n\n\t\t################## LISTA DUPLAMENTE ENCADEADA ###################\n");
 			printf("\n\t\t\t\t     ESCOLHA UMA DAS OPCOES\n");
@@ -379,9 +383,9 @@ int main() {
 			int opcao;
 			scanf("%d",&opcao);
 
-			while(opcao!=6)
+			while(opcao!=6)  //O loop executa até o usuário escolher sair da manipulação da lista duplamente encadeada
 			{
-				if(opcao == 1)
+				if(opcao == 1) //Busca por numero de matrícula
 				{
 					int matricula_busca;
 
@@ -390,7 +394,7 @@ int main() {
 					
 					tempo_inicio = clock();
 					
-					if(busca_matricula(matricula_busca)!=NULL)
+					if(busca_matricula(matricula_busca)!=NULL) //Função de busca por matrícula retorna NULL caso não exista o número de matrícula pesquisado
 					{
 				    	printf("\n\t\tNUMERO DE MATRICULA ENCONTRADO NA LISTA DUPLAMENTE ENCADEADA\n");
 				   	}
@@ -405,7 +409,7 @@ int main() {
 
    					printf("\nTempo da busca por matricula na lista duplamente encadeada: %Lf (s) \n",tempo_duracao);
 				}
-				else if(opcao == 2)
+				else if(opcao == 2) //Busca por nome
 				{
 					char nome_busca[tamanho_caracteres];
 			
@@ -415,7 +419,7 @@ int main() {
 				   	
 				   	tempo_inicio = clock();
 					
-				   	if(busca_nome(nome_busca)!=NULL)
+				   	if(busca_nome(nome_busca)!=NULL) //Função de busca por nome retorna NULL caso o nome não seja encontrado na lista
 				   	{	
 				    	printf("\n\t\tNOME ENCONTRADO NA LISTA DUPLAMENTE ENCADEADA\n");
 				   	}
@@ -430,11 +434,11 @@ int main() {
 
    					printf("\nTempo da busca por nome na lista duplamente encadeada: %Lf (s) \n",tempo_duracao);
 				}
-				else if(opcao == 3)
+				else if(opcao == 3) //Impressão da lista duplamente encadeada
 				{
 					tempo_inicio = clock();
 					
-					imprimeLista();
+					imprimeLista(); //Funções de impressão da lista duplamente encadeada
 
 					tempo_fim = clock();
 					
@@ -442,7 +446,7 @@ int main() {
 
    					printf("\nTempo da impressao na lista duplamente encadeada: %Lf (s) \n",tempo_duracao);
 				}
-				else if(opcao == 4)
+				else if(opcao == 4) //Inserção manual
 				{
 					int matricula_busca;
 					
@@ -453,13 +457,13 @@ int main() {
 					
 					tempo_inicio = clock();
 					
-					if(busca_matricula(matricula_busca)!=NULL)
+					if(busca_matricula(matricula_busca)!=NULL) //Função de busca retorna NULL quando a matrícula não existe e a inserção é liberada
 					{
 					    printf("\n\t\tMATRICULA EM USO. NAO SERA POSSIVEL INSERIR REGISTRO\n");
 					}
-				    else
+				    else //Ao permitir inserção, instrui usuário a preencher os dados restantes do registro
 					{
-						printf("\n\t\tMATRICULA LIBERADA. INSIRA OS DADOS");
+						printf("\n\t\tMATRICULA LIBERADA. INSIRA OS DADOS\n\n");
 
 						linha_lista.matricula=matricula_busca;
 						
@@ -497,7 +501,7 @@ int main() {
 
    					printf("\nTempo da insercao manual na lista duplamente encadeada: %Lf (s) \n",tempo_duracao);
 				}
-				else if(opcao == 5)
+				else if(opcao == 5) //Remoção de um registro pelo número de matrícula
 				{
 					int matricula_busca;
 
@@ -506,12 +510,11 @@ int main() {
 
 			   		tempo_inicio = clock();
 					
-				   	if(busca_matricula(matricula_busca)!=NULL)
+				   	if(busca_matricula(matricula_busca)!=NULL)  //Função de busca retorna o nodo da matricula encontrado quando a mesma existe
 				   	{
 				    	printf("\n\t\tMATRICULA ENCONTRADA. PROCEDENDO REMOCAO\n");
 				    	
-				    	//remover(busca_matricula(matricula_busca));
-				    	remover(matricula_busca);
+				    	remover(matricula_busca); //Função de remoção
 
 				    	printf("\nRemocao efetuada! Deseja imprimir a arvore? Digite 1 para SIM e 2 para NAO: ");
 						int opcao_2;
@@ -551,6 +554,11 @@ int main() {
 				scanf("%d",&opcao);
 			}
 		}
+		else
+		{
+			printf("\n\t\t\tOPCAO INVALIDA\n");
+		}
+
 		printf("\n\n\n\t\t\t   ################## MENU ###################\n");
 		printf("\n\t\t\t\t     ESCOLHA UMA DAS OPCOES\n");
 		printf("\n1 - Manipulacao de dados na Arvore AVL");
@@ -568,7 +576,8 @@ int main() {
 
 
 //FUNÇÕES DE LISTA DUPLAMENTE ENCADEADA
-void inserir (registro linha)
+
+void inserir (registro linha) //Função de inserção na lista duplamente encadeada
 {
    struct no *novo = MALLOC (struct no);
    
@@ -580,7 +589,7 @@ void inserir (registro linha)
       return ;
    }
         
-   // atribuição do novo valor...
+   // atribuição do novo valor
    novo->matricula=linha.matricula;
    strcpy(novo->nome,linha.nome);
    strcpy(novo->sobrenome,linha.sobrenome);
@@ -600,7 +609,7 @@ void inserir (registro linha)
       return ;
    }
         
-   // se não for o primeiro elemento da lista...
+   // se não for o primeiro elemento da lista
    atual = inicio;
         
    while ( atual )
@@ -639,13 +648,13 @@ void inserir (registro linha)
    return ;
 }
 
-
+//Função de impressão da lista duplamente encadeada
 void imprimeLista (void)
 {
 
 	struct no *atual = inicio;
         
-   	while (atual)
+   	while (atual) //Enquanto o nodo atual não for nulo
    	{
 		printf("\n\n");
 		printf("Numero de Matricula: %d\n", atual->matricula);
@@ -663,94 +672,88 @@ void imprimeLista (void)
    return ;
 }
 
+//Função de busca de matrícula da lista duplamente encadeada
 struct no *busca_matricula (int matricula)
 {
    struct no *atual = inicio;
         
-   while ( atual )
+   while ( atual ) //Enquanto o nodo atual não for nulo
    {
-      if ( atual->matricula == matricula)
+      if ( atual->matricula == matricula) //Se o valor for encontrado
       {
          return atual;
       }
-      else
+      else //Se não for encontrado, procura no proximo nodo;
       {
          atual = atual->prox;
       }
    }
-   return NULL;
+
+   return NULL; //retorna NULL se após percorrer toda a lista o número de matrícula não for encontrado
 }
 
+//Função de busca por nome da lista duplamente encadeada
 struct no *busca_nome (char *nome)
 {
    struct no *atual = inicio;
 
    int comparador;
 
-   while ( atual )
-   {
-      comparador = strcmp(nome,atual->nome);
+	while ( atual ) //Enquanto o nodo atual não for nulo
+   	{
+      	comparador = strcmp(nome,atual->nome); //Comparação entre o nome presente no nodo atual e o nome buscado
 
-      if(comparador == 0)
-      {
-         return atual;
-      }
-      else
-      {
-         atual = atual->prox;
-      }
+      	if(comparador == 0) //Se o nome presente no nodo atual e o nome buscado forem iguais
+      	{
+         	return atual; //Retorna o nodo encontrado
+      	}
+      	else
+      	{
+         	atual = atual->prox; //Continua procurando, percorrendo o próximo nodo da lista
+      	}
    }
-   return atual;
+
+   return atual; //Retorna NULL, pois não encontrou o nome nos registros da lista
 }
 
+//Função para remover um nodo da lista pelo número de matrícula do registro
 struct no *remover(int matricula)
 {
-   //start from the first link
-   struct no* atual = inicio;
+   struct no* atual = inicio; //Inicia pelo ponteiro do início da lista
    struct no* anterior = NULL;
 	
-   //if list is empty
-	if(inicio == NULL)
+	if(inicio == NULL) //Se não houver nodos na lista
    	{
 		printf("\n\t\t\tLISTA VAZIA\n");
       	return NULL;
    	}
 
-   	//navigate through list
-   	while(atual->matricula != matricula)
-   	{
-      //if it is last node
-		
-    	if(atual->prox == NULL)
+   	while(atual->matricula != matricula) //Navegando pela lista enquanto o número de matrícula não for encontrado
+   	{	
+    	if(atual->prox == NULL) //Se o nodo atual for o último nodo da lista
       	{
-         	return NULL;
+         	return NULL; //Retorna NULL sinalizando que o nodo com o número de matrícula não foi encontrado
       	}
       	else
       	{
-			//store reference to current link
-        	anterior = atual;
+        	anterior = atual; //Armazena um ponteiro para o nodo atual
 			
-         	//move to next link
-         	atual = atual->prox;             
+         	atual = atual->prox; //Percorre a lista, indo para o próximo nodo
       	}
    	}
 
-   	//found a match, update the link
-   	if(atual == inicio)
+   	if(atual == inicio) //Caso o nodo a ser removido seja o primeiro da lista, atualiza o ponteiro que aponta para o início da lista
    	{
-      	//change first to point to next link
-      	inicio = inicio->prox;
+      	inicio = inicio->prox; //Atualiza o início da lista
    	}
    	else
    	{
-      	//bypass the current link
-      	atual->ant->prox = atual->prox;
+      	atual->ant->prox = atual->prox; //Desvia o link atual
    	}    
 
-   	if(atual == fim)
+   	if(atual == fim) //Caso o nodo a ser removido seja o último da lista
    	{
-      	//change last to point to prev link
-      	fim = atual->ant;
+      	fim = atual->ant; //Muda o ponteiro apontando para o final da lista para o nodo anterior do nodo atual
    	}
    	else
    	{
@@ -760,6 +763,7 @@ struct no *remover(int matricula)
    	return atual;
 }
 
+//Função de quebra de string para a lista duplamente encadeada
 registro quebra_string_lista(char *string_recebida)
 {
 
@@ -814,7 +818,8 @@ registro quebra_string_lista(char *string_recebida)
 
 
 //FUNÇÕES DE ÁRVORE AVL
-// A utility function to get altura of the tree
+
+//Função para obter altura de um nodo novo da árvore
 int altura_arvore(Nodo *novo)
 {
     if (novo == NULL)
@@ -825,12 +830,13 @@ int altura_arvore(Nodo *novo)
     return novo->altura;
 }
 
-// Função para retornar o maior valor entre dois inteiros
+//Função para retornar o maior valor entre dois inteiros
 int maximo(int a, int b)
 {
     return (a > b)? a : b;
 }
 
+//Função para criar e alocar memória para um novo nodo
 Nodo* novo_nodo(registro *linha)
 {
     Nodo* nodo = (Nodo*)malloc(sizeof(Nodo));
@@ -856,6 +862,7 @@ Nodo* novo_nodo(registro *linha)
     return(nodo);
 }
 
+// Função que rotaciona a direita a subàrvore do nó desbalanceado
 Nodo *rotacao_direita(Nodo *atual)
 {
     struct Nodo *novo_nodo = atual->esquerda;
@@ -891,6 +898,7 @@ Nodo *rotacao_esquerda(Nodo *atual)
     return novo_nodo;
 }
 
+//Função para calcular o fator de balanceamento de um nodo
 int fator_balanceamento(Nodo *atual)
 {
     if (atual == NULL)
@@ -901,6 +909,7 @@ int fator_balanceamento(Nodo *atual)
     return altura_arvore(atual->esquerda) - altura_arvore(atual->direita);
 }
 
+//Função para inserir um registro à AVL
 Nodo* inserir_avl(Nodo *nodo, registro *linha)
 {
     //1.  Faz a rotação normal na ABB
@@ -960,6 +969,7 @@ Nodo* inserir_avl(Nodo *nodo, registro *linha)
     return nodo;
 }
 
+//Função para obter o menor valor de matrícula presente na AVL
 Nodo * menor_valor_avl(Nodo *nodo)
 {
     struct Nodo* atual = nodo;
@@ -973,6 +983,7 @@ Nodo * menor_valor_avl(Nodo *nodo)
     return atual;
 }
 
+//Função para deletar um registro da AVL pelo número de matrícula
 Nodo* deletar_avl(Nodo *raiz, int matricula)
 {
     // PASSO 1: Deleção padrão de ABB
@@ -1076,37 +1087,41 @@ Nodo* deletar_avl(Nodo *raiz, int matricula)
     return raiz;
 }
 
+//Função para buscar um nome dentro dos registros da AVL
 int busca_nodo_nome(Nodo *atual, char *nome)
 {
-    if(atual == NULL)
+    if(atual == NULL) //Caso o nodo não seja encontrado ou a AVL esteja vazia
     {
     	return 0;
     }
     else
     {
-    	if(strcmp(atual->nome,nome) == 0)
+    	if(strcmp(atual->nome,nome) == 0) //Se o nome presente no nodo atual for igual ao nome buscado
     	{
     		return 1;
     	}
 
-    	int ta_na_esquerda = busca_nodo_nome(atual->esquerda,nome); 
+    	//Percorre a AVL a esquerda e a direita em busca do nome
+    	int esquerda = busca_nodo_nome(atual->esquerda,nome);
     	
-    	if(ta_na_esquerda)
+    	if(esquerda)
     	{
     		return 1;
     	}
     	else
     	{
-    		int ta_na_direita = busca_nodo_nome(atual->direita,nome);
-    		if(ta_na_direita)
+    		int direita = busca_nodo_nome(atual->direita,nome);
+    		if(direita)
     		{
     			return 1;
     		}
     	}
     }
-	return 0;
-}// fim da função busca por nome
 
+	return 0;
+}
+
+//Função de busca pelo número de matrícula
 Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
 {
     if(atual == NULL) //se a árvore estiver vazia ou o valor não for encontrado
@@ -1129,6 +1144,7 @@ Nodo* busca_nodo_matricula(Nodo *atual, int matricula)
     }
 }
 
+//Função de impressão da AVL
 void impressao_formato_arvore(Nodo *raiz, int espaco)
 {
     // Caso base
