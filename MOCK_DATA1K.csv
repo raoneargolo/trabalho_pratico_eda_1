@@ -498,7 +498,15 @@ Matricula,Nome,Sobrenome,email,Telefone,Salario
 496,Franz,Loosely,flooselydr@blogger.com,48-(455)966-4773,4084.52
 497,Dolorita,McKinnon,dmckinnonds@flickr.com,420-(814)227-7173,3827.91
 498,Jarrod,De Mitris,jdemitrisdt@npr.org,380-(853)598-5916,3145.99
+<<<<<<< Updated upstream
 "499,Derward,""Messier,"",dmessierdu@icio.us,216-(240)805-5218,7072.47"
+=======
+<<<<<<< HEAD
+499,Derward,Messier,dmessierdu@icio.us,216-(240)805-5218,7072.47
+=======
+"499,Derward,""Messier,"",dmessierdu@icio.us,216-(240)805-5218,7072.47"
+>>>>>>> desenvolvimento
+>>>>>>> Stashed changes
 500,Gaspar,Abbess,gabbessdv@bing.com,502-(535)847-6556,2768.67
 501,Onfroi,Turford,oturforddw@skype.com,375-(323)952-7570,8640.90
 502,Pauli,Norheny,pnorhenydx@netscape.com,963-(272)452-0312,7957.02
